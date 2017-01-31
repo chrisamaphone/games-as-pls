@@ -1,0 +1,14 @@
+
+;; plant crop
+plant ?ct:
+:preconditions
+  have-seeds ?ct
+  have-empty ?p
+
+:steps
+  water ?p
+  until (XXX)
+  ...
+  harvest ?p
+
+
