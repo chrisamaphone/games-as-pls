@@ -1,0 +1,32 @@
+
+go_fish : $rod * $water * notfishing -o fishing.
+
+
+
+% fish_result : fishing -o fish + trash.
+fish/success : fishing -o fish * notfishing.
+fish/failure : fishing -o trash * notfishing.
+
+dispose : trash -o ().
+
+
+% complete "signature" of the fishing attempt:
+% go_fish : $rod * $water * notfishing -o fish + trash.
+
+% not real syntax
+% do (foo) recv x.(bar) ~=
+% let x = foo in bar
+
+fun get_fish(r:rod, w:water, nf:notfishing) 
+: rod * water * notfishing * fish
+=
+  do
+    go_fish(r,w,nf)
+  recv <r:rod, w:water, ft : (fish*notfishing)+(trash*notfishing)>.
+    case ft of
+      inl <f, nf> => <r, w, nf, f>
+    | inr <t, nf> => do dispose t recv (). get_fish(r,w,nf)
+
+
+
+
