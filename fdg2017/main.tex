@@ -31,7 +31,7 @@
 
 \begin{document}
 \title{Languages of Play}
-\subtitle{Towards semantic foundations for playable software}
+\subtitle{Towards semantic foundations for game interfaces}
 
 
 \author{Chris Martens}
@@ -41,6 +41,14 @@
   \state{NC} 
 }
 \email{martens@csc.ncsu.edu}
+
+\author{Matthew Hammer}
+\affiliation{%
+  \institution{University of Colorado, Boulder}
+  \city{Boulder}
+  \state{CO}
+}
+\email{XXX@XXX.edu}
 
 
 \begin{abstract}
@@ -55,9 +63,104 @@ paper's is 6 pages. Track: probably Game Design and Development.
 
 \section{Introduction}
 
+The field of player modeling, and the general study of the way in which
+players traverse a game space, examines the interaction between the rules
+of a system and the choices made by the player. The argument usually
+follows that we need to construct detailed models of player cognition: 
+while a game as a self-contained entity can allow us to learn about its
+mechanics and properties as a formal system, we cannot understand the {\em
+dynamics} of that system unless we also account for the human half of the
+equation.
+
+What often goes missing in such a discussion, however, is the {\em
+interface} between the two. Cardona-Rivera and Young (XXX cite) proposed
+the conceptual framework of {\em games as conversation}, emphasizing that
+play is a two-way street: a game provides affordances for action, a player
+takes action based on those affordances, and the game responds in turn with
+feedback that develops the player's mental model for the behavior
+of the system implied by the interaction as a whole. And, just as the field
+of film studies has developed a notion of {\em vocabulary} that visual
+storytellers use to communicate with audiences, scholars have studied the
+vocabulary and representational conventions of games (XXX cite something re
+games literacy?) that designers employ to communicate with players, e.g. a
+horizontal green bar floating above an avatar representing its health, or:
+a crack in an object typically understood as a wall may indicate that it
+can be broken to access another part of the game.
+
+We have recognized that a symbolic, discretized and representational
+approach to looking at design language has value. But since games are
+interactive, it would seem that we should account for another component:
+what is the analog to {\em design language} employed by the player? How
+does the player communicate their intent, and how does a digital game
+recognize this intent?
+
+Clearly they use some kind of language, but since the constraints on what
+language they may use are wholly determined by a piece of software (the
+game interface), we argue that this language has more in common with a {\em
+programming language} (loosely defined as a formal language whose meaning
+is fully grounded in a computational system) than a natural language. We
+argue that conceptualzing player communication in terms of hardware
+interactions (button presses, mouse clicks) is too {\em low-level} of an
+approach to meaningfully study interaction, and that instead we should make
+sense of these interactions on a {\em per-game} basis in terms of the {\em
+meaning} with which a game imbues these interactions. 
+
+Accordingly, each game provides a player with a unique formal language,
+termed ``programming language'' (though it may have a great deal in common
+with other games' languages) to express themselves. While some researchers
+have recognized interaction vocabularies common to certain types of games,
+their conclusion was to codify these conventions as a {\em single}
+programming language (VGDL, XXX cite), misleadingly positioned as though it
+could represent all (or a broad category) of games in a high-level way.
+We suggest that instead, the landscape of game representations and player
+affordances is as varied as the landscape of programming languages, and an
+adequate computational framework should be one that can accommodate the
+encoding of many such languages, such as a {\em logical framework} (XXX
+cite Twelf or something).
+
+What is to be gained by the game-interfaces-as-programming languages analogy?
+
+The programming languages (PL) community has a long and deep history of
+assigning mathematically formal semantics to languages and analyzing those
+semantics. As games researchers become more interested in the emergent
+consequences of the systems they assemble, the tools of PL theory have a
+lot to offer. For example, PL theory provides an account of how to relate
+meaning in a {\em low level} representation (such as assembly language, or
+on the games side, hardware-level interactions) to meaning in a {\em
+high-level} language (such as a language like Java or a game's state
+space), allowing us to draw abstraction boundaries and consider system
+components in compositional terms. In Salen and Zimmerman (XXX cite) terms,
+PL theory can help us formalize the {\em constituative mechanics} of a
+game's interface so that we may consider distinct {\em operational rules} 
+that interface with them. 
+
+(XXX example: parser vs. hypertext interactive fiction?)
+
+Furthermore, by considering a player's language of expression as an object
+of study in its own right, we center her as a co-designer of the experience
+afforded by a game. When we treat a player's interactions as not simply an
+arbitrary sequence of button presses that advances and reveals the
+designer's intent, but instead as its own distinct {\em voice} that a game
+system must listen and respond to, we enable the player to {\em co-create}
+with the system, potentially developing stronger systems thinking skills in
+the player, eliciting deeper understanding and even deeper emotional
+investment.
+
+In the remainder of the paper, we concretize the analogy by introducing the
+components of a theoretical account of a programming language (syntax, type
+system, and operational semantics) and its analog in a game. We walk
+through an example to illustrate how to think about a game in terms of its
+language-like affordances, and we demonstrate the payoff of this line of
+thought by extending the metaphor to account for {\em player skills} as
+``programs,'' effectively representing mental models for how to accomplish
+some task in terms of the game's linguistic constructs.
+
+
 \section{Related Work}
 
 \section{A Framework}
+
+  (that table from the doc should go here)
 
   Syntax, type systems, and operational semantics
 
@@ -75,6 +178,7 @@ paper's is 6 pages. Track: probably Game Design and Development.
   
   Argument for having a syntactically-well-founded structured term for a
   play trace
+
   
 \section{Example}
 
