@@ -2,7 +2,6 @@
 go_fish : $rod * $water * notfishing -o fishing.
 
 
-
 % fish_result : fishing -o fish + trash.
 fish/success : fishing -o fish * notfishing.
 fish/failure : fishing -o trash * notfishing.
@@ -28,5 +27,9 @@ fun get_fish(r:rod, w:water, nf:notfishing)
     | inr <t, nf> => do dispose t recv (). get_fish(r,w,nf)
 
 
+%%%
+
+go_fish : player_does (fishing R W) * available R * available W *
+notfishing -o ...
 
 
