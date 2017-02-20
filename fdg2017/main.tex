@@ -2,6 +2,7 @@
 
 \usepackage{booktabs} % For formal tables
 
+\usepackage{proof}
 
 % Copyright
 %\setcopyright{none}
@@ -34,6 +35,7 @@
 \subtitle{Towards semantic foundations for game interfaces}
 
 
+%% Double blind review
 % \author{Chris Martens}
 % \affiliation{%
 %   \institution{North Carolina State University}
@@ -63,36 +65,40 @@ paper's is 6 pages. Track: probably Game Design and Development.
 
 \section{Introduction}
 
-The field of player modeling, and the general study of the way in which
-players traverse a game space, examines the interaction between the rules
-of a system and the choices made by the player. The argument usually
-follows that we need to construct detailed models of player cognition: 
-while a game as a self-contained entity can allow us to learn about its
-mechanics and properties as a formal system, we cannot understand the {\em
-dynamics} of that system unless we also account for the human half of the
-equation.
+The field of player modeling studies how players traverse a game space,
+examining the interaction between the rules of the underlying system and
+the choices made by the player. One recognizes that we need to construct
+detailed models of player cognition: while a game as a self-contained
+entity can allow us to learn about its mechanics and properties as a formal
+system, we cannot understand the {\em dynamics} of that system unless we
+also account for the human half of the equation.
 
 What often goes missing in such a discussion, however, is the {\em
-interface} between the two. Cardona-Rivera and Young (XXX cite) proposed
-the conceptual framework of {\em games as conversation}, emphasizing that
-play is a two-way street: a game provides affordances for action, a player
-takes action based on those affordances, and the game responds in turn with
-feedback that develops the player's mental model for the behavior
-of the system implied by the interaction as a whole. And, just as the field
-of film studies has developed a notion of {\em vocabulary} that visual
-storytellers use to communicate with audiences, scholars have studied the
-vocabulary and representational conventions of games (XXX cite something re
-games literacy?) that designers employ to communicate with players, e.g. a
-horizontal green bar floating above an avatar representing its health, or:
-a crack in an object typically understood as a wall may indicate that it
-can be broken to access another part of the game.
+interface} between the two. Crawford (XXX) defined interactivity in games
+as their ability to carry out a conversation with a player, including
+listening, processing, and responding, identifying the importance of all
+three to the overall experience. Cardona-Rivera and Young (XXX cite)
+later proposed a more detailed conceptual framework following the slogan
+{\em games as conversation}, emphasizing that play is a two-way street: a
+game provides affordances for action, a player takes action based on those
+affordances, and the game responds in turn with feedback that develops the
+player's mental model for the behavior of the system implied by the
+interaction as a whole. And, just as the field of film studies has
+developed a notion of {\em vocabulary} that visual storytellers use to
+communicate with audiences, scholars have studied the vocabulary and
+representational conventions of games (XXX cite something re games
+literacy?) that designers employ to communicate with players, e.g. a
+horizontal green bar floating above an avatar representing its health,
+inviting an attack; a question mark labeling an object as an accessible
+reward or power-up; or a crack in an otherwise solid-seeming object
+suggesting it might be breakable.
 
 We have recognized that a symbolic, discretized and representational
-approach to looking at design language has value. But since games are
-interactive, it would seem that we should account for another component:
-what is the analog to {\em design language} employed by the player? How
-does the player communicate their intent, and how does a digital game
-recognize this intent?
+approach to looking at this kind of design language has value. But in the
+context of interactibity, it would seem that we should account for another
+component: the analog to {\em design language} employed by the
+player. How does the player communicate their intent, and how does a
+digital game recognize this intent?
 
 Clearly they use some kind of language, but since the constraints on what
 language they may use are wholly determined by a piece of software (the
@@ -129,12 +135,32 @@ meaning in a {\em low level} representation (such as assembly language, or
 on the games side, hardware-level interactions) to meaning in a {\em
 high-level} language (such as a language like Java or a game's state
 space), allowing us to draw abstraction boundaries and consider system
-components in compositional terms. In Salen and Zimmerman (XXX cite) terms,
-PL theory can help us formalize the {\em constituative mechanics} of a
-game's interface so that we may consider distinct {\em operational rules} 
-that interface with them. 
+components in compositional terms. For example, we can consider what it
+means to have a game with the same {\em internal mechanics} (or what Salen
+and Zimmerman (XXX) call {\em constiutative rules}) but distinct interface,
+comparing the meaning of these interfaces on formal terms.
 
-(XXX example: parser vs. hypertext interactive fiction?)
+% In Salen and Zimmerman (XXX cite) terms,
+% PL theory can help us formalize the {\em constituative mechanics} of a
+% game's interface so that we may consider distinct {\em operational rules} 
+% that interface with them. 
+
+% XXX example: parser vs. hypertext interactive fiction?
+%
+% Parser:
+%   Interface:
+%     >
+%   Recognized utterances - contextual:
+%    > <verb> <noun>
+%    > <verb>
+%    > <verb> <noun> <preposition> <noun>
+%
+% Hypertext:
+%   Interface: contextual, e.g.
+%     [[go north]] or [[go south]] or [[take sword]] ?
+%   Recognized utterances:
+%     (link clicks) - 1 dimensional, contextual, ambiguous
+
 
 Furthermore, by considering a player's language of expression as an object
 of study in its own right, we center her as a co-designer of the experience
@@ -158,7 +184,7 @@ some task in terms of the game's linguistic constructs.
 
 \section{Related Work}
 
-AI action languages; general game AI frameworks
+AI action languages (planning, event calc, etc.); general game AI frameworks
 
 FRP? Other PL stuff; embedded DSLs?
 
@@ -215,15 +241,117 @@ Hazel
   the analogy between a {\em language} specification and a {\em game}
   specification. To treat a game in this manner, we wish to consider player
   affordances and actions, as well as their behavior (mechanics) in the
-  context of the game's running environment.
+  context of the game's running environment. We summarize the components of
+  this correspondence in Table~\ref{tab:correspondence}.
 
-  \subsection{Player affordances as syntax}
+  \begin{table}
+  \begin{tabular}{ll}
+    PL concept & Game concept\\
+    \hline
+    Syntax & Recognized player actions \\
+    Type system & Meaningful player actions \\
+    Operational semantics & Game mechanics \\
+    Runtime store & Game world \\
+    Normalized programs & Play traces 
+  \end{tabular}
+  \label{tab:correspondence}
+  \end{table}
 
-  Additive vs. subtractive affordances
+  (XXX turn into sentences)
+  Running example: moving through a discrete set ofrooms,
+  acquiring objects placed in those rooms.
+
+  \subsection{Player actions as syntax}
+
+  Should be context free; recognizable by a parser; define well-formed
+  expressions by the player
+  
+  Possibilities for movement:
+  pressing a directional arrow;
+  typing a direction;
+  moving the mouse or joystick
+
+  Possibilities for taking an item:
+  pressing a designated button;
+  typing ``\verb/take <item>/'';
+  colliding with the item
+
+  BNF for interface 1:\\
+  \verb/move <dir> | collect/
+
+  BNF for interface 2:\\
+  \verb/go <dir> | take <thing>/\\
+  n.b. larger set of allowable utterances; meaning is less contextual
+  (easier to infer by itself what parts of the game state it will depend
+  on)
+
+  BNF for interface 3:\\
+  \verb/move <dir>/\\
+  n.b. much {\em more} contextual; it's impossible to infer what each
+  action will ``do'' in the game and which parts of the game environment it
+  depends on
+
+  Additive vs. subtractive affordances:
+
+  Just like with the rest of a game's rules, its language of play has both
+  additive and subtractive properties: it provides the menu of options for
+  what types of things are {\em permissible}, i.e. likely to result in
+  meaningful interaction with the game system, but it also establishes
+  which utterances are {\em disallowed}, i.e. that it is not meaningful to
+  say ``take'' without providing an object to the command.
+
+  ... is the grammar for a blank text field that or is it just any typed
+  string, and the type system what enforces the grammatical structure?
+  (XXX)
 
   \subsection{Structured affordances as type systems}
+  
+  Whether an utterance is {\em meaningful} or not will depend on
+  the runtime game state, and is a distinct question from whether it is
+  well-formed. For example, whether or not we can {\em take
+  flask} depends on whether the flask is present, or indeed whether a {\em
+  flask} is even a recognized game object. But unless ill-formed intents can be
+  recognized a priori (such as: if we know the complete set of possible
+  game objects ahead of time and can reject commands that refer to entities
+  outside of that set), we must treat this command as well-formed {\em
+  syntax} and relegate its failure to integrate with the runtime game
+  environment to the {\em mechanics} (operational semantics).
+
+  However, we can rule out an approximation of ill-formed utterances using
+  type systems. For example, if we know the ...
+  (only take portable things, only talk to characters, etc - could be
+  specified at the grammar level)
+  
+  Providing the player with {\em only the option of saying} those
+  utterances that ``make sense'' in this regard corresponds to a strong
+  static type system: e.g. choice-based interface to parser-based commands
 
   \subsection{Mechanics as operational semantics}
+
+  To characterize mechanics, we will also need an account of expressions
+  permissible in the game's language (e.g. display a room, make a sound,
+  make an object disappear, etc. --- things more commonly accounted for in
+  formal game description languages). 
+
+  \newcommand{\stepsto}{\rightsquigarrow}
+
+  Judgment: $\sigma; e_p \stepsto \sigma'; e_g$ \\
+  where $e_p$ is a player expression and $e_g$ is a game expression, and
+  $\sigma$ and $\sigma'$ are game states. This judgment should be read:
+  ``Under state $\sigma$, the game responds to player action $e_p$ by
+  changing to state $\sigma'$ and conveying information $e_g$.''
+
+  Mechanics of interface 1:
+
+  \[
+    \infer{
+      \sigma, at(R); PLAYER: move<dir> \stepsto \sigma, at(R'); GAME:
+      display(R')
+    }
+    {
+      indir(dir, R, R') \in \sigma
+    }
+  \]
 
   \subsection{Game environment as external runtime}
 
