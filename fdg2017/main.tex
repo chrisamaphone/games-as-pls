@@ -3,6 +3,7 @@
 \usepackage{booktabs} % For formal tables
 
 \usepackage{proof}
+\usepackage{graphicx}
 
 % Copyright
 %\setcopyright{none}
@@ -65,39 +66,87 @@ paper's is 6 pages. Track: probably Game Design and Development.
 
 \section{Introduction}
 
-The field of player modeling studies how players traverse a game space,
-examining the interaction between the rules of the underlying system and
-the choices made by the player. One recognizes that we need to construct
-detailed models of player cognition: while a game as a self-contained
-entity can allow us to learn about its mechanics and properties as a formal
-system, we cannot understand the {\em dynamics} of that system unless we
-also account for the human half of the equation.
+To study how players interact with games, we examine both the rules of the
+underlying system and the choices made by the player. One recognizes the
+value in constructing detailed models of player cognition: while a game as
+a self-contained entity can allow us to learn about its mechanics and
+properties as a formal system, we cannot understand the {\em dynamics} of
+that system unless we also account for the human half of the equation.
+
+\begin{figure}
+\includegraphics[width=0.4\textwidth]{conversation.png}
+\caption{The observable features of a game loop: a player and a game in conversation.}
+\end{figure}
 
 What often goes missing in such a discussion, however, is the {\em
-interface} between the two. Crawford (XXX) defined interactivity in games
-as their ability to carry out a conversation with a player, including
-listening, processing, and responding, identifying the importance of all
-three to the overall experience. Cardona-Rivera and Young (XXX cite)
-later proposed a more detailed conceptual framework following the slogan
-{\em games as conversation}, emphasizing that play is a two-way street: a
-game provides affordances for action, a player takes action based on those
-affordances, and the game responds in turn with feedback that develops the
-player's mental model for the behavior of the system implied by the
-interaction as a whole. And, just as the field of film studies has
-developed a notion of {\em vocabulary} that visual storytellers use to
-communicate with audiences, scholars have studied the vocabulary and
-representational conventions of games (XXX cite something re games
-literacy?) that designers employ to communicate with players, e.g. a
-horizontal green bar floating above an avatar representing its health,
-inviting an attack; a question mark labeling an object as an accessible
-reward or power-up; or a crack in an otherwise solid-seeming object
-suggesting it might be breakable.
+interface} between the two. Crawford~\cite{crawford2003chris} defined
+interactivity in games as their ability to carry out a conversation with a
+player, including listening, processing, and responding, identifying the
+importance of all three to the overall experience. Cardona-Rivera and
+Young~\cite{cardona2014games} later proposed a more detailed conceptual
+framework following the slogan {\em games as conversation}, providing
+grounded evidence for the communicative strategies of games following
+conventions in line with cognitive theories for human-to-human
+conversational understanding, such as Grice's maxims (XXX cite).
 
+Just as the field of film studies has developed a notion of {\em
+vocabulary} that visual storytellers use to communicate with audiences,
+such as the cinematic device of {\em intercutting} used to convey
+simultaneous action,
+scholars have studied the vocabulary and representational conventions of
+games (XXX cite something re games literacy? salen and zimmerman?) that
+designers employ to communicate with players, such a horizontal green bar
+floating above an avatar representing its health or a question mark
+labeling an object as a reward or power-up. In interactive media, we also
+adopt the notion of {\em affordances} in terms of what kinds of actions
+these representations invite: a health bar above an avatar suggests it may
+be attacked, whereas a question mark labeling a box suggests it might be
+opened.
+% Designers term these representational conventions taken as a
+% systemic whole a {\em design language} (XXX cite?) 
+%
 We have recognized that a symbolic, discretized and representational
-approach to looking at this kind of design language has value. But in the
-context of interactibity, it would seem that we should account for another
-component: the analog to {\em design language} employed by the
-player. How does the player communicate their intent, and how does a
+approach to looking at these design decisions has value: the term {\em
+design language} (XXX cite) indicates a recognition that these symbols and
+affordances operate together as a system.
+
+However, play is a two-way street. Design language explains how the computational half of
+the conversation expresses itself to the human half. This paper introduces
+an account of how the human half of the game loop expresses themselves to
+the computational half.
+
+The paper introducing the Game Ontology Project~\cite{zagal2007towards} asserts,
+\begin{quote} \em
+The interface is where the player and game meet, the mapping
+between the embodied reactions of the player and the manipulation of game
+entities. It refers to both how the player interacts with the game and how
+the game communicates to the player.
+\end{quote}
+The authors subdivide interface into {\em input} and {\em presentation},
+where presentation includes the representational strategies already
+discussed. {\em Input} is further subdivided into {\em input device} and
+{\em input method}, where input devices are hardware controllers (mice,
+keyboards, joysticks, etc.) and input {\em methods} start to brush the
+surface of something more semantic, analogous to a design language: it
+includes choices about {\em locus of manipulation} (which game entities can
+the player control?) and direct versus indirect action, such as selecting
+an action from a menu of options (indirect) versus pressing an arrow key to
+move an avatar (direct).
+
+
+\begin{figure*}
+\includegraphics[width=0.75\textwidth]{conversation-processing.png}
+\caption{A process diagram of a game loop: player and game conversation as
+it relates to language, interface, and cognition.}
+\end{figure*}
+
+(XXX this is kind of a description of the figure)
+play is a two-way street: a game provides affordances for action, a player
+takes action based on those affordances, and the game responds in turn with
+feedback that develops the player's mental model for the behavior of the system
+implied by the interaction as a whole. And, 
+
+How does the player communicate their intent, and how does a
 digital game recognize this intent?
 
 Clearly they use some kind of language, but since the constraints on what
@@ -180,7 +229,6 @@ language-like affordances, and we demonstrate the payoff of this line of
 thought by extending the metaphor to account for {\em player skills} as
 ``programs,'' effectively representing mental models for how to accomplish
 some task in terms of the game's linguistic constructs.
-
 
 \section{Related Work}
 
@@ -573,7 +621,7 @@ Nondeterminism, protocols
   acknowledgements
 \end{acks}
 
-% \bibliographystyle{ACM-Reference-Format}
-% \bibliography{sigproc} 
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{main} 
 
 \end{document}
