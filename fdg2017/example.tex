@@ -1,0 +1,107 @@
+To test the extent to which this analogy holds beyond a smallest example,
+we attempt to describe the logic of a complex resource economy game with
+an extensive player language. In {\em Stardew Valley} (XXX cite), the
+player has an inventory that permits varied interactions with the world,
+beginning a number of tools for farming (axe, hoe, scythe,
+pickaxe) which do different things in contact with the resources in the
+surrounding environment; most include extracting some resource (wood,
+stone, fiber, and so on), which themselves enter the player's inventory and
+can be used in further interaction with the game world. There are also
+context-sensitive interactions between the player and non-player characters
+(NPCs), interfaces through which new items may be purchased (shops), and
+mini-games including fishing.
+
+While a full account of the language that this game affords the player is
+beyond the scope of this paper, what follows is an attempt to include a
+representative sample of the actions and affordances found in this game,
+presented in terms of the framework described above.
+
+(XXX summarize what we are doing in this section)
+
+\subsection{Syntax}
+
+% move, apply tool, interact (open chests, talk to people, open doors,
+% sleep)
+% eating, giving things to npcs
+
+(XXX concrete vs. abstract syntax analog to controls vs. player actions?)
+
+\newcommand{\param}[1]{\langle #1 \rangle}
+\newcommand{\syn}[1]{\mathsf{#1}}
+
+(an item is something held, an entity is something in the world)
+\begin{eqnarray*}
+action &::=& \syn{select} \param{item}\\
+       &\mid& \syn{apply} \param{entity}\\
+       &\mid& \syn{inquire} \param{entity}\\
+       &\mid& \syn{move\_near} \param{entity}\\
+       &\mid& \syn{move\_offscreen} \param{direction}
+\end{eqnarray*}
+
+While it would be tempting to use the syntax layer to encode the kind of
+higher-level actions performed in the game most frequently---tilling land,
+planting seeds, conversing with NPCs---we want to accurately reflect the
+{\em extensibility} of Stardew Valley's player language by describing the
+general system from which these actions are derived. In other words, rather
+than having each instance of such an action be a special case that a player
+must learn how to speak as an independent vocabulary term, instead, they
+learn it through {\em composing} the pre-existing constructs of selecting items
+and applying them to objects in the world. For example: (XXX explain this
+more)
+
+Higher-level actions:
+\begin{verbatim}
+action hoe = select hoe; move_near shrub; apply shrub
+action mine = select pickaxe; move_near rock; apply rock
+action enter_shop = move_near shop; inquire door(shop)
+action talk = move_near npc; inquire npc
+action plant = select seeds; move_near tilled_ground; apply tilled_ground
+\end{verbatim}
+
+\subsection{Context Dependence}
+
+include discussion of whether the above sequences of actions will actually
+succeed or not; protocols...
+
+include discussion of inventory menu, shops, crafting, recipes, other contextual menus
+(XXX here or later?)
+
+\subsection{Semantics}
+
+(We can probably just describe these in prose rather than writing out the
+syntax in full)
+
+XXX define predicates like extracts, cost of crop, etc?
+
+% apply tool depends on the tool and the thing you apply it to;
+% mining yields stone, copper
+% chopping tree yields wood (nondeterministic: seeds, sap, acorns, etc.)
+Case $\syn{apply}\param{entity}$:\\
+If the player is near an object that can be {\em extracted} with the
+applied tool (e.g. a tree may be extracted by an axe; stone and ores may be
+extracted by the pickaxe), compute and display a state change removing that object and
+replacing it with its drops. \\
+If the player is not near such an object, compute and display nothing.
+
+XXX say something about drops being random
+
+The game has some internal rules that will detect collisions between the
+player and dropped items to add them to her inventory (these collision
+rules are not part of the player language, since they occur passively).
+
+Case $\syn{move}\param{direction}$:\\
+Change the player location (XXX mention above caveat re collisions)
+
+
+Case $\syn{inquire}\param{object}$:\\
+XXX
+
+crops yield money
+
+money can buy things in stores
+
+recipe menu
+
+interact depends on whether a person, chest, door, other game object
+
+
