@@ -1,0 +1,90 @@
+\newcommand{\Player}[4]{\ensuremath{#1{:}\left< {#2} , {#3} , {#4} \right>}}
+\newcommand{\PropIsTrue}[2]{\ensuremath{#1 \vdash #2~\textsf{true}}}
+\newcommand{\StepsTo}[4]{\ensuremath{\left< #1 ; #2 \right> \longrightarrow \left< #3 ; #4 \right>}}
+
+\section{Precise player-game dynamics via operational semantics}
+\label{sec:opsem}
+
+The player consists of a 
+
+The operational semantics employs notions of the game and player states.
+
+The following BNF definitions give meta variable conventions (the left-hand-side variable names) and syntactic cases (the right-hand-side of each rule).
+
+
+\begin{figure*}
+\small
+
+\begin{tabular}{l|l}
+
+\begin{minipage}{0.7\textwidth}
+\begin{tabular}{lccll}
+propositions   & $P$ & $::=$ & $\cdots$ & Game world propositions~(See~$\PropIsTrue{G}{P}$)
+\\
+player command & $C$ & $::=$ & $\cdot$ $~|~$ $c$ & Unit and atomic commands (0 and 1 turns, resp.)
+\\
+               &     & $~|~$ & $C_1~{;}~C_2$ & Command sequences (multi-turn commands)
+\\
+               &     & $~|~$ & $\textsf{until}~P~\textsf{do}~C$ & Command loops (e.g., for player skills)
+\\
+atomic command & $c$ & $::=$ & $\textsf{grasp}~i$ & Attempt to place~object$i$ into player's hand
+\\
+               &     & $|$   & $\textsf{drop}$ & Drop the held object, if any
+\\
+               &     & $|$   & $\textsf{giveTo}~i$ & Give held object to another~(named~$i$)
+\\
+               &     & $|$   & $\textsf{takeFrom}~i$ & Take hold of object from another~(named~$i$)
+\\
+               &     & $|$   & $\textsf{moveTo}~i$ & Move adjacent to object, place or agent~(named~$i$)
+\\
+               &     & $|$   & $\textsf{moveThrough}~i$ & Move through opening~(named~$i$)
+\\[5mm]
+unique IDs & $i,j$ & $::=$ & $\cdots$ & (\emph{abstract}, e.g., numbers, symbols, noun phrases)
+\\
+game state & $G$ & $::=$ & $\cdots$ & (\emph{abstract})
+\\
+player state & $p$ & $::=$ & $$ & Player identity, bag~$B$, hand~$h$ and commands~$C$
+\\
+unit space (hand) & $s,h$ & $::=$ & $\square~|~i$ & An empty space, or an object~(named~$i$)
+\\
+aggregate space (bag) & $S,B$ & $::=$ & $\cdot~|~s::S$ & Zero or more unit spaces
+\end{tabular}
+\end{minipage}
+
+&
+
+\begin{minipage}{0.3\textwidth}
+\[
+\begin{array}{ll}
+\fbox{$G_1 \equiv G_2$}~\textrm{World equivalence}
+\\
+\fbox{$b_1 \equiv b_2$}~\textrm{Bag equivalence}
+\\
+\fbox{$\PropIsTrue{G}{P}$} 
+\\
+\textrm{In world~$G$, proposition~$P$ is true}.
+\\[2mm]
+\fbox{$\StepsTo{G}{p}{G'}{p'}$}
+\\[2mm]
+
+\infer
+{  
+\StepsTo
+{G}{\Player{i}{B_1}{\square} {\textsf{grasp}~$j$}}
+{G}{\Player{i}{B_2}{j}{\cdot}}
+}
+{
+B_1 \equiv j :: B_2
+}
+
+
+\end{array}
+\]
+\end{minipage}
+
+
+\end{tabular}
+
+\caption{Definitions for an operational semantics: Captures precise
+  player-game dynamics for a primitive adventure game.}
+\end{figure*}
