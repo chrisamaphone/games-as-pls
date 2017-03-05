@@ -55,8 +55,19 @@
 
 
 \begin{abstract}
-Abstract goes here. A full paper's maximum length is 10 pages; a short
-paper's is 6 pages. Track: probably Game Design and Development.
+% Abstract goes here. A full paper's maximum length is 10 pages; a short
+% paper's is 6 pages. Track: probably Game Design and Development; maybe
+% Game AI or Game Technology
+Formal models of games help us account for and predict behavior, leading to
+more robust and innovative designs. While the games research community has 
+proposed many formalisms for both the ``game half'' (game models, game
+description languages) and the ``human half'' (player modeling) of a game
+experience, little attention has been paid to the {\em interface} between
+the two, particularly where it concerns the player expressing her intent
+toward the game. We describe an analytical and computational toolbox based
+on programming language theory to examine the phenomenon sitting between
+control schemes and game rules, which we identify as a distinct {\em
+language} for each game.
 \end{abstract}
 
 
@@ -67,127 +78,103 @@ paper's is 6 pages. Track: probably Game Design and Development.
 \section{Introduction}
 
 To study how players interact with games, we examine both the rules of the
-underlying system and the choices made by the player. One recognizes the
-value in constructing detailed models of player cognition: while a game as
+underlying system and the choices made by the player. 
+The field of player modeling has identified the
+value in constructing models of player cognition: while a game as
 a self-contained entity can allow us to learn about its mechanics and
 properties as a formal system, we cannot understand the {\em dynamics} of
 that system unless we also account for the human half of the equation.
+Meanwhile, Crawford~\cite{crawford2003chris} identifies the necessity of
+looking at the complete information loop created between a player and a
+digital game, defining {\em interactivity} in games as their ability to
+carry out a conversation with a player, including listening, processing,
+and responding, identifying the importance of all three to the overall
+experience.
 
-% \begin{figure}
-% \includegraphics[width=0.4\textwidth]{conversation.png}
-% \caption{The observable features of a game loop: a player and a game in conversation.}
-% \end{figure}
-
-What often goes missing in such a discussion, however, is the {\em
-interface} between the two. Crawford~\cite{crawford2003chris} defined
-interactivity in games as their ability to carry out a conversation with a
-player, including listening, processing, and responding, identifying the
-importance of all three to the overall experience. Cardona-Rivera and
-Young~\cite{cardona2014games} later proposed a more detailed conceptual
-framework following the slogan {\em games as conversation}, providing
-grounded evidence for the communicative strategies of games following
-conventions in line with cognitive theories for human-to-human
-conversational understanding, such as Grice's maxims (XXX cite).
-
-Just as the field of film studies has developed a notion of {\em
-vocabulary} that visual storytellers use to communicate with audiences,
-such as the cinematic device of {\em intercutting} used to convey
-simultaneous action,
-scholars have studied the vocabulary and representational conventions of
-games (XXX cite something re games literacy? salen and zimmerman?) that
-designers employ to communicate with players, such a horizontal green bar
-floating above an avatar representing its health or a question mark
-labeling an object as a reward or power-up. In interactive media, we also
-adopt the notion of {\em affordances} in terms of what kinds of actions
-these representations invite: a health bar above an avatar suggests it may
-be attacked, whereas a question mark labeling a box suggests it might be
-opened.
-% Designers term these representational conventions taken as a
-% systemic whole a {\em design language} (XXX cite?) 
-%
-We have recognized that a symbolic, discretized and representational
-approach to looking at these design decisions has value: the term {\em
-design language} (XXX cite) indicates a recognition that these symbols and
-affordances operate together as a system.
-
-However, play is a two-way street. Design language explains how the computational half of
-the conversation expresses itself to the human half. This paper introduces
-an account of how the human half of the game loop expresses themselves to
-the computational half.
-
-The paper introducing the Game Ontology Project~\cite{zagal2007towards} asserts,
+Given this understanding of games-as-conversation, , we should expect to
+discover something like a {\em language} through which games and players converse. 
+In Figure~\ref{fig:gameloop}, we illustrate the game-player loop as a
+process which includes an {\em interface} constituting such a language.
+The Game Ontology Project~\cite{zagal2007towards} describes game interfaces
+as follows:
 \begin{quote} \em
 The interface is where the player and game meet, the mapping
 between the embodied reactions of the player and the manipulation of game
 entities. It refers to both how the player interacts with the game and how
 the game communicates to the player.
 \end{quote}
-The authors subdivide interface into {\em input} and {\em presentation},
-where presentation includes the representational strategies already
-discussed. {\em Input} is further subdivided into {\em input device} and
-{\em input method}, where input devices are hardware controllers (mice,
+The first part, {\em how the player interacts with the game}, is
+called the {\em input}, which is further subdivided into {\em input device}
+and {\em input method}. Input devices are hardware controllers (mice,
 keyboards, joysticks, etc.) and input {\em methods} start to brush the
-surface of something more semantic, analogous to a design language: it
-includes choices about {\em locus of manipulation} (which game entities can
-the player control?) and direct versus indirect action, such as selecting
-an action from a menu of options (indirect) versus pressing an arrow key to
-move an avatar (direct).
+surface of something more semantic: they include choices about {\em locus of
+manipulation} (which game entities can the player control?) and direct
+versus indirect action, such as selecting an action from a menu of options
+(indirect) versus pressing an arrow key to move an avatar (direct).
 
+However, any close look at interactive fiction, recent mobile games, or
+rhythm games (just to name a few examples) will reveal that design choices
+for input methods have much more variety and possibility than these two
+dimensions. In this paper, we propose a framework to support analyzing and exploring
+that design space. 
+
+Our first step is to refine input {\em methods} to input {\em languages}:
+we are ultimately asking, how can a player communicate their intent, and
+how does a digital game recognize this intent?  So, in linguistic terms,
+the ``phonemes'' of such a language are hardware controls such as button
+presses and joystick movement. Then, the syntax and semantics are defined
+by each game individually, depending on what meaning they give to each
+control input. This language defines the verbs of the game, which may
+include moving, selecting inventory items, examining world items, applying
+or using items, entering rooms, and combat actions.  (Note that such a
+language is also distinct from a game's {\em mechanics}: mechanics include
+system behavior which is out of the player's control, such as falling with
+gravity, non-player character actions, and other autonomous behavior.) This
+language is both {\em afforded} by the game designer---she must communicate
+to players which verbs are available---and {\em constrained} by her---she
+may declare certain expressions invalid.
 
 \begin{figure*}
 \includegraphics[width=0.75\textwidth]{conversation-processing.png}
 \caption{A process diagram of a game loop: player and game conversation as
 it relates to language, interface, and cognition.}
+\label{fig:gameloop}
 \end{figure*}
 
-(XXX this is kind of a description of the figure)
-play is a two-way street: a game provides affordances for action, a player
-takes action based on those affordances, and the game responds in turn with
-feedback that develops the player's mental model for the behavior of the system
-implied by the interaction as a whole. And, 
-
-How does the player communicate their intent, and how does a
-digital game recognize this intent?
-
-Clearly they use some kind of language, but since the constraints on what
+Since the constraints on what
 language they may use are wholly determined by a piece of software (the
-game interface), we argue that this language has more in common with a {\em
-programming language} (loosely defined as a formal language whose meaning
-is fully grounded in a computational system) than a natural language. We
-argue that conceptualzing player communication in terms of hardware
-interactions (button presses, mouse clicks) is too {\em low-level} of an
-approach to meaningfully study interaction, and that instead we should make
-sense of these interactions on a {\em per-game} basis in terms of the {\em
-meaning} with which a game imbues these interactions. 
+game interface), we argue that these languages more in common with a {\em
+programming language} (PL) (broadly defined as a formal language whose meaning
+is fully grounded in a computational system) than a natural language. 
+Accordingly, each game in some sense {\em defines its own programming
+language}. In a slogan, we could term this project {\em games as
+programming languages}.
 
-Accordingly, each game provides a player with a unique formal language,
-termed ``programming language'' (though it may have a great deal in common
-with other games' languages) to express themselves. While some researchers
-have recognized interaction vocabularies common to certain types of games,
-their conclusion was to codify these conventions as a {\em single}
-programming language (VGDL, XXX cite), misleadingly positioned as though it
-could represent all (or a broad category) of games in a high-level way.
-We suggest that instead, the landscape of game representations and player
-affordances is as varied as the landscape of programming languages, and an
-adequate computational framework should be one that can accommodate the
-encoding of many such languages, such as a {\em logical framework} (XXX
-cite Twelf or something).
+% What is to be gained by this analogy?
 
-What is to be gained by the game-interfaces-as-programming languages analogy?
+This analogy opens up a whole field of methodology to try applying to
+games.  The programming languages (PL) community has a long and deep
+history of assigning mathematically formal semantics to languages and
+analyzing those semantics. As games researchers become more interested in
+the emergent consequences of the systems they assemble, the tools of PL
+theory have a lot to offer. For example, PL theory provides an account of
+{\em compositionality}, i.e. how fragments of expression fit together to
+form higher-level meanings. In games, this translates into being able to
+understand player {\em skills} or strategies as compositions of player
+actions, which we demonstrate in this paper by using a formalized input
+language as a kind of ``player AI scripting language.''
 
-The programming languages (PL) community has a long and deep history of
-assigning mathematically formal semantics to languages and analyzing those
-semantics. As games researchers become more interested in the emergent
-consequences of the systems they assemble, the tools of PL theory have a
-lot to offer. For example, PL theory provides an account of how to relate
-meaning in a {\em low level} representation (such as assembly language, or
-on the games side, hardware-level interactions) to meaning in a {\em
-high-level} language (such as a language like Java or a game's state
-space), allowing us to draw abstraction boundaries and consider system
-components in compositional terms. For example, we can consider what it
-means to have a game with the same {\em internal mechanics} (or what Salen
-and Zimmerman (XXX) call {\em constiutative rules}) but distinct interface,
-comparing the meaning of these interfaces on formal terms.
+% PL theory also
+% provides an account of
+% how to relate meaning in a {\em low level} representation (such as assembly
+% language, or on the games side, control-level interactions) to meaning in a
+% {\em high-level} language (such as a language like Java or a game's state
+% space), allowing us to draw abstraction boundaries and consider system
+% components in compositional terms. For example, we can consider what it
+% means to have a game with the same {\em internal mechanics} (or what Salen
+% and Zimmerman (XXX) call {\em constiutative rules}) but distinct interface,
+% comparing the meaning of these interfaces on formal terms.
+
 
 % In Salen and Zimmerman (XXX cite) terms,
 % PL theory can help us formalize the {\em constituative mechanics} of a
@@ -212,14 +199,13 @@ comparing the meaning of these interfaces on formal terms.
 
 
 Furthermore, by considering a player's language of expression as an object
-of study in its own right, we center her as a co-designer of the experience
+of study in its own right, we center them as a co-designer of the experience
 afforded by a game. When we treat a player's interactions as not simply an
 arbitrary sequence of button presses that advances and reveals the
 designer's intent, but instead as its own distinct {\em voice} that a game
 system must listen and respond to, we enable the player to {\em co-create}
-with the system, potentially developing stronger systems thinking skills in
-the player, eliciting deeper understanding and even deeper emotional
-investment.
+with the system, potentially developing deeper systems understanding
+and emotional investment.
 
 In the remainder of the paper, we concretize the analogy by introducing the
 components of a theoretical account of a programming language (syntax, type
@@ -232,13 +218,7 @@ some task in terms of the game's linguistic constructs.
 
 \section{Related Work}
 
-AI action languages (planning, event calc, etc.); general game AI frameworks
-
-FRP? Other PL stuff; embedded DSLs?
-
-PlaySpecs
-
-Hazel
+\input{related}
 
 \section{A Framework}
 
@@ -570,25 +550,42 @@ Nondeterminism, protocols
 
 \section{Discussion}
 
-  What this enables:
-  \begin{itemize}
-  \item Scripting languages for games, for free
-  \item Co-creative interfaces and collaborative play, a la MUDs/ZZT
-  \item Reasoning about/analyzing games and possible skill trees
-  \end{itemize}
+  Having established a vocabulary of syntax and semantics for player
+  languages, we can now revisit the potential benefits of this account
+  mentioned in the introduction and discuss them in more detail.
 
-  A single ``video game description language'' is a misleading direction to
-  take a formal understanding of games, because games as expressive forms
-  are as diverse as programming languages.
+  \subsection{Compositionality and player skills}
 
-  Instead, we can imagine meta-frameworks c.f. logical frameworks for
-  encoding PLs and specifying their meaning.
+  \subsection{Abstraction boundaries between input and mechanics}
 
-  Future work: try to draw further analogies. Better REPLs for PLs? 
+  XXX the tools to try on different interfaces to the same mechanics
+
+  \subsection{Scripting languages for free}
+
+
+  \subsection{Co-creative interfaces and collaborative play}
+
+  \subsection{Future Work}
+  % Future work: try to draw further analogies. Better REPLs for PLs? 
+  In future work, we intend to build software for realizing game language
+  designs and experimenting with protocol-based game AI developed as
+  programs in these languages. In another direction, we aim to innovate in
+  PL design outside of games, such as read-eval-print loops (REPLs) for
+  live programming that includes rapid feedback loops motivated by
+  gameplay, as well as distributed and concurrent systems that may benefit
+  from the protocol-based approach proposed here.
 
 \section{Conclusion}
 
-  Summary of contributions (new ideas, why they matter)
+  % Summary of contributions (new ideas, why they matter)
+
+Our primary contribution is an account of {\em input languages} as the
+space between hardware control schemes and a game's mechanics, together
+with a proposal for a rigorous methodology to support designing, analyzing,
+and constructing such languages.
+
+
+  
 
 \begin{acks}
   acknowledgements
@@ -598,3 +595,47 @@ Nondeterminism, protocols
 \bibliography{main} 
 
 \end{document}
+
+%%% unused
+% The language
+% a player speaks and the language a game speaks serve somewhat different
+% purposes: a game's language includes the visual, textual, and audio
+% feedback mechanisms, including semiotic information such as health bars and
+% question mark symbols. Such a language is best studied with an
+% On the other hand,
+% the language the player speaks toward a digital game is formal and
+% unambiguous.  understanding of linguistics, psychology, and design. 
+
+% Just as the field of film studies has developed a notion of {\em
+% vocabulary} that visual storytellers use to communicate with audiences,
+% such as the cinematic device of {\em intercutting} used to convey
+% simultaneous action,
+% scholars have studied the vocabulary and representational conventions of
+% games (XXX cite something re games literacy? salen and zimmerman?) that
+% designers employ to communicate with players, such a horizontal green bar
+% floating above an avatar representing its health or a question mark
+% labeling an object as a reward or power-up. In interactive media, we also
+% adopt the notion of {\em affordances} in terms of what kinds of actions
+% these representations invite: a health bar above an avatar suggests it may
+% be attacked, whereas a question mark labeling a box suggests it might be
+% opened.
+% % Designers term these representational conventions taken as a
+% % systemic whole a {\em design language} (XXX cite?) 
+% %
+% We have recognized that a symbolic, discretized and representational
+% approach to looking at these design decisions has value: the term {\em
+% design language} (XXX cite) indicates a recognition that these symbols and
+% affordances operate together as a system.
+% 
+% However, play is a two-way street. Design language explains how the computational half of
+% the conversation expresses itself to the human half. This paper introduces
+% an account of how the human half of the game loop expresses themselves to
+% the computational half.
+
+% (XXX this is kind of a description of the figure)
+% play is a two-way street: a game provides affordances for action, a player
+% takes action based on those affordances, and the game responds in turn with
+% feedback that develops the player's mental model for the behavior of the system
+% implied by the interaction as a whole. And, 
+
+

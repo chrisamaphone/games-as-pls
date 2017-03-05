@@ -53,34 +53,32 @@ aggregate space (bag) & $S,B$ & $::=$ & $\cdot~|~s::S$ & Zero or more unit space
 
 &
 
-\begin{minipage}{0.3\textwidth}
-\[
-\begin{array}{ll}
-\fbox{$G_1 \equiv G_2$}~\textrm{World equivalence}
-\\
-\fbox{$b_1 \equiv b_2$}~\textrm{Bag equivalence}
-\\
-\fbox{$\PropIsTrue{G}{P}$} 
-\\
-\textrm{In world~$G$, proposition~$P$ is true}.
-\\[2mm]
-\fbox{$\StepsTo{G}{p}{G'}{p'}$}
-\\[2mm]
-
-\infer
-{  
-\StepsTo
-{G}{\Player{i}{B_1}{\square} {\textsf{grasp}~$j$}}
-{G}{\Player{i}{B_2}{j}{\cdot}}
-}
-{
-B_1 \equiv j :: B_2
-}
-
-
-\end{array}
-\]
-\end{minipage}
+% \begin{minipage}{0.3\textwidth}
+% \[
+% \begin{array}{ll}
+% \fbox{$G_1 \equiv G_2$}~\textrm{World equivalence}
+% \\
+% \fbox{$b_1 \equiv b_2$}~\textrm{Bag equivalence}
+% \\
+% \fbox{$\PropIsTrue{G}{P}$} 
+% \\
+% \textrm{In world~$G$, proposition~$P$ is true}.
+% \\[2mm]
+% \fbox{$\StepsTo{G}{p}{G'}{p'}$}
+% \\[2mm]
+% 
+% \infer
+% {  
+%  \StepsTo
+%  {G}{\Player{i}{B_1}{\square} {\textsf{grasp}~$j$}}
+%  {G}{\Player{i}{B_2}{j}{\cdot}}
+% }
+% {
+%  B_1 \equiv j :: B_2
+% }
+% \end{array}
+% \]
+% \end{minipage}
 
 
 \end{tabular}
