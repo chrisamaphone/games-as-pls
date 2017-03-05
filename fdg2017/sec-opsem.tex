@@ -96,6 +96,43 @@ hand state (unit space) & $h,s$ & $::=$ & $\square~|~i$ & An empty space, or an 
   B_3 \equiv j :: B_2
 }
 \\[2mm]
+\infer{  
+  \StepsTo
+      {G}{ 
+        \Player{i}{B_1}{j}{\textsf{grasp}~k}
+      }
+      {G}{ 
+        \Player{i}{B_3}{j}{k}{\cdot}
+      }
+}
+{
+  B_1 \not\equiv k :: B_2
+  \\
+  B_3 \not\equiv j :: B_2
+}
+\end{array}
+\]
+\end{minipage}
+
+
+\end{tabular}
+
+\[
+\begin{array}{l}
+\\[2mm]
+\infer{  
+  \StepsTo
+      {G}{ 
+        \Player{i}{B}{k}{\textsf{grasp}~k}
+      }
+      {G}{ 
+        \Player{i}{B}{k}{\textsf{errMsg}~\textrm{``you are already holding $k$''}}
+      }
+}
+{
+\quad
+}
+\\[2mm]
 \infer{
   \StepsTo
       {G_1}{
@@ -123,13 +160,9 @@ hand state (unit space) & $h,s$ & $::=$ & $\square~|~i$ & An empty space, or an 
   \\
   G_2 \equiv \textsf{giveItemTo}(G_1, k, j)
 }
-
 \end{array}
 \]
-\end{minipage}
 
-
-\end{tabular}
 
 \caption{Definitions for an operational semantics: Captures precise
   player-game dynamics for a primitive adventure game.}
