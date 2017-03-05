@@ -16,8 +16,10 @@
 
 \begin{tabular}{l|l}
 
-\begin{minipage}{0.7\textwidth}
+\begin{minipage}{0.68\textwidth}
 \begin{tabular}{lccll}
+unique IDs & $i,j$ & $::=$ & $\cdots$ & (\emph{abstract}, e.g., numbers, symbols, noun phrases)
+\\
 propositions   & $P$ & $::=$ & $\cdots$ & Game world propositions~(See~$\PropIsTrue{G}{P}$)
 \\
 player command & $C$ & $::=$ & $\cdot$ $~|~$ $c$ & Unit and atomic commands (0 and 1 turns, resp.)
@@ -38,15 +40,16 @@ atomic command & $c$ & $::=$ & $\textsf{grasp}~i$ & Attempt to place object~$i$ 
 \\
                &     & $|$   & $\textsf{moveThrough}~i$ & Move through opening~(named~$i$)
 \\[5mm]
-unique IDs & $i,j$ & $::=$ & $\cdots$ & (\emph{abstract}, e.g., numbers, symbols, noun phrases)
-\\
+\end{tabular}
+\begin{tabular}{lccll}
 game state & $G$ & $::=$ & $\cdots$ & (\emph{abstract})
 \\
-player state & $p$ & $::=$ & $\Player{i}{B}{h}{C}$ & Player identity, bag~$B$, hand~$h$ and commands~$C$
+player state & $p$ & $::=$ & $\Player{i}{B}{h}{C}$ & Player identity~$i$, bag~$B$, hand~$h$ and commands~$C$
 \\
-unit space (hand) & $s,h$ & $::=$ & $\square~|~i$ & An empty space, or an object~(named~$i$)
+bag state (spaces) & $B,S$ & $::=$ & $\cdot~|~s::S$ & Zero or more unit spaces
 \\
-aggregate space (bag) & $S,B$ & $::=$ & $\cdot~|~s::S$ & Zero or more unit spaces
+hand state (unit space) & $h,s$ & $::=$ & $\square~|~i$ & An empty space, or an object~(named~$i$)
+\\
 \end{tabular}
 \end{minipage}
 
@@ -104,6 +107,21 @@ aggregate space (bag) & $S,B$ & $::=$ & $\cdot~|~s::S$ & Zero or more unit space
 }
 {
   G_2 \equiv \textsf{dropItem}(G_1, j, \textsf{pos}(i))
+}
+\\[2mm]
+\infer{
+  \StepsTo
+      {G_1}{
+        \Player{i}{B}{k}{\textsf{giveTo}~j}
+      }
+      {G_2}{
+        \Player{i}{B}{\square}{\cdot}
+      }
+}
+{
+  G_1\,{\vdash}\,\textsf{isNear}(i, j)
+  \\
+  G_2 \equiv \textsf{giveItemTo}(G_1, k, j)
 }
 
 \end{array}

@@ -42,3 +42,31 @@ expression and facilitate human-computer conversation.
 Hazel
 
 FRP? Other PL stuff; embedded DSLs?
+
+Hazelnut is a formal model of a program editor that enforces that
+every edit state is meaningful (it consists of a well-defined syntax
+tree, with a well-defined type)~\cite{Omar17Hazelnut}.
+%
+Its type system and editing semantics permit \emph{partial programs},
+which contain missing pieces and well-marked type inconsistencies.
+%
+Specifically, Hazelnut proposes a \emph{editing language}, which
+defines how a cursor moves and edits the syntax tree; the planned
+benefits of this model range from better editing assistance, the
+potential to better automate systematic edits, and further
+context-aware assistance and automation based on statistical analysis
+of (semantically-rich) corpses of recorded past edits, which consist
+of \emph{traces} from this language~\cite{Omar17Hazel}.
+%
+Likewise, in the context of game design, we propose a player language;
+we expect similar benefits, as outlined elsewhere in the paper (??).
+
+\paragraph{Functional reactive programming.}
+%
+Functional reactive programming (FRP) describes computations that
+consume and produce time-varying data using techniques and ideas from
+functional programming.
+%
+\citep{Fran,HudakEtAl,Cooper06embeddingdynamic,Krishnaswami11,Krishnaswami13,Czaplicki2013AFR}.
+
+
