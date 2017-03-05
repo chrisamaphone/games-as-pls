@@ -59,27 +59,65 @@
   \label{tab:correspondence}
   \end{table}
 
-  (XXX turn into sentences)
-  Running example: moving through a discrete set of rooms,
-  acquiring objects placed in those rooms.
+  \newcommand{\cmove}{\mathsf{move}}
+  \newcommand{\ctake}{\mathsf{take}}
+
+  We will use as a running example a minimal virtual environment with two
+  player actions: (1) movement through a discrete set of rooms in a
+  pre-defined map ($\cmove$); (2) acquiring objects placed in those rooms to store in
+  a player inventory ($\ctake$).  We can consider several possibilities in
+  the design space of interfaces for such a game:
+
+  \begin{itemize}
+  \item A first-person point-and-click interface where the meaning of each click is
+    defined based on the region the cursor falls in. Clicking near any of the
+    four screen edges moves in that direction; clicking on a sprite
+    representing an item takes it.
+  \item A top-down point-and-click interface where a click on a room
+    indicates intent to move there, and a click on an item indicates intent
+    to take it, but those actions only work if the player avatar is adjacent
+    to the indicated room or item.
+  \item A keyboard-based interface where each arrow key moves in a
+    different direction and a special key such as the spacebar expresses
+    the $\ctake$ action.
+  \item A command-line based interface where the player types free-form
+    text, which is then parsed into commands, such as \verb|take lamp| and \verb|move north|.
+  \item A choice-based hypertext interface where all available options are
+    enumerated and the player selects one.
+  \end{itemize}
+
+  In the following subsections, we will consider these possibilities in
+  light of design choices relevant to the specified aspect of PL design.
 
   \subsection{Player actions as syntax}
 
-  Should be context free; recognizable by a parser; define well-formed
-  expressions by the player
+  The {\em syntax} of a game is its space of recognized player intentions.
+  Note that {\em intention} is different from {\em action} in the sense
+  that we don't necessarily expect each well-formed intention to change
+  anything about the game state: a player can intend to move north, but if
+  there is no room to the north of the player when she expresses this
+  intent, no change to the game's internal state will occur. Nonetheless,
+  depending on the design goals of the game, we may wish to recognize this
+  as a valid intent so that the game may respond in some useful way (e.g.
+  with feedback that the player cannot move in that direction).
   
-  Possibilities for movement:
-  pressing a directional arrow;
-  typing a direction;
-  moving the mouse or joystick
+  In our example game, the choice of syntax answers questions such as: can
+  the player click anywhere, or only in regions that have meaning? Can the
+  player type arbitrary commands, or should we provide a menu or
+  auto-complete text so as to prevent the player from entering meaningless
+  commands?
+  In PL, we can formalize these decisions by describing an {\em abstract
+  syntax} for our language, which is typically assumed to be context-free
+  and thus specified as a Bachus-Naur Form (BNF) grammar. As one example,
+  the BNF for the keyboard-based interface might look like:
 
-  Possibilities for taking an item:
-  pressing a designated button;
-  typing ``\verb/take <item>/'';
-  colliding with the item
+  \begin{eqnarray*}
+  direction &::=& \mathsf{north} \mid \mathsf{south} \mid \mathsf{east}
+    \mid \mathsf{west} \\
+  intent &::=& \cmove\  \langle direction \rangle \mid \ctake
+  \end{eqnarray*}
 
-  BNF for interface 1:\\
-  \verb/move <dir> | collect/
+  XXX more here...
 
   BNF for interface 2:\\
   \verb/go <dir> | take <thing>/\\
