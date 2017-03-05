@@ -88,7 +88,7 @@ aggregate space (bag) & $S,B$ & $::=$ & $\cdot~|~s::S$ & Zero or more unit space
       }
 }
 {
-  B_1 \equiv \square :: B_2
+  B_1 \equiv k :: B_2
   \\
   B_3 \equiv j :: B_2
 }
@@ -103,7 +103,7 @@ aggregate space (bag) & $S,B$ & $::=$ & $\cdot~|~s::S$ & Zero or more unit space
       }
 }
 {
-  G_2 \equiv \textsf{dropItem}(G_1, j, \textsf{near}(i))
+  G_2 \equiv \textsf{dropItem}(G_1, j, \textsf{pos}(i))
 }
 
 \end{array}
