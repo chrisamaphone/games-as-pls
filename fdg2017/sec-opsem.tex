@@ -108,6 +108,21 @@ hand state (unit space) & $h,s$ & $::=$ & $\square~|~i$ & An empty space, or an 
 {
   G_2 \equiv \textsf{dropItem}(G_1, j, \textsf{pos}(i))
 }
+\\[2mm]
+\infer{
+  \StepsTo
+      {G_1}{
+        \Player{i}{B}{k}{\textsf{giveTo}~j}
+      }
+      {G_2}{
+        \Player{i}{B}{\square}{\cdot}
+      }
+}
+{
+  G_1\,{\vdash}\,\textsf{isNear}(i, j)
+  \\
+  G_2 \equiv \textsf{giveItemTo}(G_1, k, j)
+}
 
 \end{array}
 \]
