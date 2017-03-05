@@ -1,16 +1,15 @@
-\newcommand{\Player}[4]{\ensuremath{#1{:}\left< {#2} , {#3} , {#4} \right>}}
+\newcommand{\Player}[4]{\ensuremath{{#1}{:}\left<{#2},{#3},{#4}\right>}}
 \newcommand{\PropIsTrue}[2]{\ensuremath{#1 \vdash #2~\textsf{true}}}
-\newcommand{\StepsTo}[4]{\ensuremath{\left< #1 ; #2 \right> \longrightarrow \left< #3 ; #4 \right>}}
+\newcommand{\StepsTo}[4]{\ensuremath{\left<{#1};{#2}\right> \longrightarrow \left<{#3};{#4}\right>}}
 
 \section{Precise player-game dynamics via operational semantics}
 \label{sec:opsem}
 
-The player consists of a 
+%The player consists of a 
 
-The operational semantics employs notions of the game and player states.
+%The operational semantics employs notions of the game and player states.
 
-The following BNF definitions give meta variable conventions (the left-hand-side variable names) and syntactic cases (the right-hand-side of each rule).
-
+%The following BNF definitions give meta variable conventions (the left-hand-side variable names) and syntactic cases (the right-hand-side of each rule).
 
 \begin{figure*}
 \small
@@ -27,7 +26,7 @@ player command & $C$ & $::=$ & $\cdot$ $~|~$ $c$ & Unit and atomic commands (0 a
 \\
                &     & $~|~$ & $\textsf{until}~P~\textsf{do}~C$ & Command loops (e.g., for player skills)
 \\
-atomic command & $c$ & $::=$ & $\textsf{grasp}~i$ & Attempt to place~object$i$ into player's hand
+atomic command & $c$ & $::=$ & $\textsf{grasp}~i$ & Attempt to place object~$i$ into player's hand
 \\
                &     & $|$   & $\textsf{drop}$ & Drop the held object, if any
 \\
@@ -43,7 +42,7 @@ unique IDs & $i,j$ & $::=$ & $\cdots$ & (\emph{abstract}, e.g., numbers, symbols
 \\
 game state & $G$ & $::=$ & $\cdots$ & (\emph{abstract})
 \\
-player state & $p$ & $::=$ & $$ & Player identity, bag~$B$, hand~$h$ and commands~$C$
+player state & $p$ & $::=$ & $\Player{i}{B}{h}{C}$ & Player identity, bag~$B$, hand~$h$ and commands~$C$
 \\
 unit space (hand) & $s,h$ & $::=$ & $\square~|~i$ & An empty space, or an object~(named~$i$)
 \\
@@ -58,7 +57,7 @@ aggregate space (bag) & $S,B$ & $::=$ & $\cdot~|~s::S$ & Zero or more unit space
 \begin{array}{ll}
 \fbox{$G_1 \equiv G_2$}~\textrm{World equivalence}
 \\
-\fbox{$b_1 \equiv b_2$}~\textrm{Bag equivalence}
+\fbox{$B_1 \equiv B_2$}~\textrm{Bag equivalence}
 \\
 \fbox{$\PropIsTrue{G}{P}$} 
 \\
@@ -66,17 +65,46 @@ aggregate space (bag) & $S,B$ & $::=$ & $\cdot~|~s::S$ & Zero or more unit space
 \\[2mm]
 \fbox{$\StepsTo{G}{p}{G'}{p'}$}
 \\[2mm]
-
-\infer
-{  
-\StepsTo
-{G}{\Player{i}{B_1}{\square} {\textsf{grasp}~$j$}}
-{G}{\Player{i}{B_2}{j}{\cdot}}
+\infer{  
+  \StepsTo
+      {G}{ 
+        \Player{i}{B_1}{\square}{\textsf{grasp}~j}
+      }
+      {G}{ 
+        \Player{i}{B_2}{j}{\cdot}        
+      }
 }
 {
-B_1 \equiv j :: B_2
+  B_1 \equiv j :: B_2
 }
-
+\\[2mm]
+\infer{  
+  \StepsTo
+      {G}{ 
+        \Player{i}{B_1}{j}{\textsf{grasp}~k}
+      }
+      {G}{ 
+        \Player{i}{B_3}{j}{k}{\cdot}
+      }
+}
+{
+  B_1 \equiv \square :: B_2
+  \\
+  B_3 \equiv j :: B_2
+}
+\\[2mm]
+\infer{
+  \StepsTo
+      {G_1}{
+        \Player{i}{B_1}{j}{\textsf{drop}}
+      }
+      {G_2}{
+        \Player{i}{B_3}{\square}{\cdot}
+      }
+}
+{
+  G_2 \equiv \textsf{dropItem}(G_1, j, \textsf{near}(i))
+}
 
 \end{array}
 \]
