@@ -1,0 +1,61 @@
+
+item : type.
+flask : item.
+magnet : item.
+key : item.
+
+room : type.
+bridge : room.
+lab : room.
+sickbay : room.
+engineering : room.
+
+at_player room : pred.
+at item room : pred.
+player_has item : pred.
+
+intent : type.
+% take item : intent.
+take : intent.
+
+game_msg : type.
+success : game_msg.
+failure : game_msg.
+
+player_intends intent : pred.
+game_responds game_msg : pred.
+
+context init =
+{
+  at_player lab,
+  at flask lab,
+  at key bridge,
+  at magnet lab,
+  player_intends take 
+}
+
+stage main = {
+
+take/succeed : 
+  player_intends take *
+  $at_player Room * at Item Room
+-o
+  player_has Item *
+  game_responds success.
+
+}
+check_fail :
+qui * stage main -o stage fail.
+
+% If main stage quiesces, then no item exists in the same room
+% as the player.
+stage fail = {
+
+take/fail :
+  player_intends take
+-o
+  game_responds failure.
+}
+
+#trace _ main init.
+
