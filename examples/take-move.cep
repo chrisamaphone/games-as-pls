@@ -1,0 +1,96 @@
+
+item : type.
+flask : item.
+magnet : item.
+key : item.
+
+room : type.
+bridge : room.
+lab : room.
+sickbay : room.
+engineering : room.
+
+dir : type.
+n : dir.
+s : dir.
+e : dir.
+w : dir.
+adjacent room dir room : bwd.
+adjacent bridge n lab.
+adjacent engineering s bridge.
+adjacent engineering e sickbay.
+adjacent sickbay w engineering.
+adjacent engineering w lab.
+adjacent lab e engineering.
+
+at_player room : pred.
+at item room : pred.
+player_has item : pred.
+
+intent : type.
+% take item : intent.
+take : intent.
+move dir : intent.
+
+game_msg : type.
+success : game_msg.
+failure : game_msg.
+
+player_intends intent : pred.
+game_responds game_msg : pred.
+
+turn : pred.
+
+context init =
+{
+  at_player lab,
+  at flask lab,
+  at key bridge,
+  at magnet lab,
+  turn
+}
+
+stage input = {
+  do/move/n : turn -o player_intends (move n).
+  do/move/s : turn -o player_intends (move s).
+  do/move/e : turn -o player_intends (move e).
+  do/move/w : turn -o player_intends (move w).
+  do/take : turn -o player_intends take.
+}
+#interactive input.
+qui * stage input -o stage main.
+
+stage main = {
+
+take/succeed : 
+  player_intends take *
+  $at_player Room * at Item Room
+-o
+  player_has Item *
+  game_responds success.
+
+move/succeed :
+  player_intends (move Dir) *
+  at_player Room *
+  adjacent Room Dir Room'
+-o
+  at_player Room' *
+  game_responds success.
+
+}
+check_fail :
+qui * stage main -o stage fail.
+
+% If main stage quiesces, then no item exists in the same room
+% as the player.
+stage fail = {
+
+intend/fail :
+  player_intends X
+-o
+  game_responds failure.
+}
+qui * stage fail -o stage input * turn.
+
+#trace _ input init.
+
