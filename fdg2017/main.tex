@@ -224,110 +224,12 @@ some task in terms of the game's linguistic constructs.
 
 \input{framework}
   
-\section{Example}
-\input{example}
+% \section{Example}
+% \input{example}
 
 \section{Player skills as programs}
+\input{skills}
 
-
-Up to this point, we have described languages of player expression as
-single utterances in isolation from one another, but we have not considered
-their composition, i.e. how sequences of actions can be employed to carry out
-more complex tasks. Games with rich player action languages such as Stardew
-Valley often center the challenge of connecting these actions together to
-solve puzzles or quests, such as: how can my character, a poor farmer and
-newcomer to Stardew Valley, go from nothing but a few coins to a thriving
-farm business? The player can determine the answer by stringing together
-actions in an {\em intentional} way, that is, along a path describing some
-plan that she believes will take her from the game state of ``having a
-few coins'' to ``growing several lucrative crops.''
-
-One possible plan she can take is to scavenge the local wildlife: after
-using the scythe on enough wild brush, she may find wild seeds for free,
-which may be planted. Another option is to purchase some inexpensive seeds
-at the general store. Then she must learn to grow the crop: tilling earth,
-optionally fertilizing it, placing seeds in the ground, and then watering
-it day after day (in between which other tasks may be accomplished).
-Finally she must harvest the crop and take it to market to sell, then
-repeat the process with a stronger financial foundation.
-
-This is one of the ways games are said to teach us {\em systems thinking}:
-by showing us, piece by piece, what each part of a system accomplishes in
-isolation, then framing one's activity within an over-arching goal, the
-player must reason about her actions' effects on the world and how they
-interact with one another, not just how they behave in isolation. We
-observe the cause-and-effect behavior and start to form {\em higher-level
-plans} in terms of the skills we learn how to do: instead of {\em plant
-crop; water crop; harvest crop; sell crop} we may refer to the collective
-action as {\em farming} and incorporate this action with other high-level
-skills (mining, fishing) into a plan for how our character should spend her
-day.
-
-Within our programming language framing,
-composing low-level actions into sequences with high-level intentional
-meaning corresponds to {\em writing a program}, i.e. creating a complex
-expression. The grammars for our action languages have so far not
-included composition mechanisms (e.g. sequencing), which are needed to
-write programs beyond single actions.
-
-The act of programming, when the game is a programming language, is very
-different from the usual act of programming wherein one fills a text buffer
-with several lines of code and then compiles (or runs an interpreter on)
-the entire thing. Instead, the player, by interacting with the game, is
-doing something more similar to {\em live coding} the environment, or
-perhaps interacting with a read-evaluate-print loop (REPL). The game BOTS
-(XXX cite) takes the ``game actions as programming language commands''
-seriously and actually asks players to write short programs controlling
-their avatar that navigates a game world to solve a level. We do not adopt
-the belief that all games should ask players to write programs, but instead
-wish to observe the process of interaction that they already engage in as
-something that could be formalized and analyzed as a program.
-
-n.b. the game language is important... two halves...
-fishing protocol and nondeterminism
-
-Examples:
-
-Farming a crop:
-\begin{verbatim}
-
-fun water_until_harvestable[t](p: planted(t))
-: crop(t)
-=
-do try_harvest(p)
-      recv <result: crop(t) + growing(t)>.
-        case result of
-        c:crop(t) => c
-      | g:growing(t) => water(g, w); wait(day); try_harvest(g)
-
-fun grow_crop[t : croptype](s:soil, w:watering_can)
-: crop(t)
-=
-  do
-    get_seeds(t) || till_soil(s)
-  recv <s: seeds(t), g: tilled_soil>.
-    do
-      plant(s, g)
-    recv <p: planted(t)>.try_harvest(p)
-        
-\end{verbatim}
-
-Fishing:
-\begin{verbatim}
-fun get_fish(r:rod, w:water, nf:notfishing) 
-: rod * water * notfishing * fish
-=
-  do  
-    go_fish(r,w,nf)
-  recv <r:rod, w:water, ft : (fish*notfishing)+(trash*notfishing)>.
-    case ft of
-      inl <f, nf> => <r, w, nf, f>
-    | inr <t, nf> => do dispose t recv (). get_fish(r,w,nf)
-\end{verbatim}
-
-...
-
-Nondeterminism, protocols
 
 \section{Discussion}
 
@@ -368,9 +270,9 @@ and constructing such languages.
 
   
 
-\begin{acks}
-  acknowledgements
-\end{acks}
+% \begin{acks}
+%   acknowledgements
+% \end{acks}
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{main} 
