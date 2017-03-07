@@ -1,3 +1,139 @@
+\newcommand{\OmitThis}[1]{}
+
+Consider the right-hand-side of Figure~\ref{fig:gameloop}: The game
+parses and interprets an unambiguous syntax of player intent, which
+either advances the game state (as shown in the figure), or the game
+state cannot advance as the player intended, which the game somehow
+signals to the player (not shown).
+
+We model a \emph{response} to the move-take player intent with the
+following BNF definition, of~$\mathit{resp}$:
+%
+  \begin{eqnarray*}
+  \mathit{resp} &::=& \mathsf{success} \mid \mathsf{failure}
+  \end{eqnarray*}
+%
+Figure~\ref{fig:gameloop} shows the case where the player intent of
+``take flask'' (formally, the syntax ``$\ctake$'') leads to the game
+world performing this intent as a successful action, and responding
+accordingly with ``Taken.''
+%
+Formally, we model this $\mathit{resp}$ as~``$\mathsf{success}$,'' as
+defined above.
+%
+Likewise, if the flask cannot be taken (e.g., the flask is not near
+the player, or is already in the player's possession, etc.), the game
+responds with~$\mathsf{failure}$.
+
+As with the player's intent, which may exist as both raw input
+\emph{and} as formal syntax, each formal response can be conveyed as
+raw output in a variety of ways (e.g., as textual words, pictures, or
+sounds).
+%
+In real games there are often two two levels of game-to-player
+feedback:
+%
+Feedback through the game world, and feedback \emph{outside} the game
+world (e.g., a pop-up message with an error, guidance or advise).
+%
+For simplicity, move-take gives feedback outside of the game state,
+e.g., as pop-up messages.
+
+% XXX Mention semiotics anywhere?
+
+\newcommand{\GameStep}[4]{
+ \left< #1; #2 \right>
+ \longrightarrow 
+ \left< #3; #4 \right>
+}
+
+To capture the formal relationship between player intent as syntax,
+and game response as syntax, we introduce a four-place
+\emph{game-step} relation:
+\[
+\GameStep{G_1}{\mathit{intent}}{G_2}{\mathit{resp}}
+\]
+This relation formalizes the dynamic behavior of the right-hand-side
+of Figure~\ref{fig:gameloop}.  It consists of four parts: An initial
+game state~$G_1$, a player intent~$\mathit{intent}$, a resulting game
+state~$G_2$ and a game response~$\mathit{resp}$.
+
+As as standard in PL formalisms, we give the rules that define this
+relation as inductive \emph{inference rules}, which can each be read
+as a logical inference.  That is, given evidence for the premises on
+the top of the rule, we may conclude the bottom of the rule.
+%
+For instance, here are two example rules:
+\[
+\infer{
+  \GameStep{G_1}{\ctake}{G_2}{\textsf{success}}
+}{ 
+  G_1 \vdash \textrm{player near}~\textsf{flask}
+  \quad
+  \quad
+  \textsf{playerTake}(G_1,\textsf{flask}) \equiv G_2
+}
+\]
+\[
+\infer{
+  \GameStep{G}{\ctake}{G}{\textsf{failure}}
+}{
+  G \vdash \textsf{not}\big( \textrm{player near}~\textsf{flask} \big)
+}
+\]
+The first rule formalizes the case shown in the RHS of
+Figure~\ref{fig:gameloop}.
+%
+The second rule formalizes the opposite outcome, where the flask
+cannot be taken.
+%
+Notably, the first rule has two premises: To be taken by the player,
+it suffices to show that in the current game state~$G_1$, the flask is
+near the player (first premise), and that there exists an advanced
+game state~$G_2$ that results from the player taking this flask~(second premise).
+%
+In the second rule, there is only one game state~$G$, since the flask
+cannot be taken and consequently, the game state does not change.
+
+Like the syntax of player intent and game responses, these rules are
+also unambiguous.
+%
+Consequently, we view these rules as a mathematical definition with an
+associated strategy for constructing formal (and informal) proofs
+about the game mechanics.
+
+For instance, we can formally state and attempt to prove that for all
+player intents~$\mathit{intent}$ and game worlds, $G_1$, there exists
+a corresponding game world~$G_2$ and game response~$\mathit{resp}$.
+%
+That is, the statement of the following conjecture:
+\[
+\begin{array}{ccc}
+\forall G_1, \mathit{intent}.
+&
+\exists G_2, \mathit{resp}.
+&\GameStep
+  {G_1}{\mathit{intent}}
+  {G_2}{\mathit{resp}}
+\end{array}
+\]
+Using standard PL techniques, the proof of this conjecture gives rise
+to an abstract algorithm that implements the game mechanics by
+analyzing each possible case for the current game-state and player
+intent.
+%
+Indeed, this is precisely the reasoning required to show that an
+implementation of the game is \emph{complete} (i.e., there exists no
+state and input that will lead the game into an undefined situation).
+
+
+XXX 
+Transition
+
+\OmitThis{
+\section{Precise player-game dynamics via operational semantics}
+\label{sec:opsem}
+
 \newcommand{\Player}[4]{\ensuremath{{#1}{:}\left<{#2},{#3},{#4}\right>}}
 \newcommand{\PropIsTrue}[2]{\ensuremath{#1 \vdash #2~\textsf{true}}}
 \newcommand{\StepsTo}[4]{\ensuremath{\left<{#1};{#2}\right> \longrightarrow \left<{#3};{#4}\right>}}
@@ -167,3 +303,4 @@ hand state (unit space) & $h,s$ & $::=$ & $\square~|~i$ & An empty space, or an 
 \caption{Definitions for an operational semantics: Captures precise
   player-game dynamics for a primitive adventure game.}
 \end{figure*}
+}
