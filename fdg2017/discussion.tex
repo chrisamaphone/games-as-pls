@@ -1,0 +1,65 @@
+Having established a vocabulary of syntax and semantics for player
+languages, we can now revisit the potential benefits of this account
+mentioned in the introduction and discuss them in more detail.
+
+\subsection{Compositionality for play traces and player skills}
+
+One of the major things that a programming language account provides is
+{\em compositionality}: a system for making sense of meaning of a complex
+artifact in terms of the meaning of its pieces. This comes up in two places
+for looking at games:
+
+{\bf Structured play traces.} With a formalized game language, the sequence
+of steps along the transition system described by the operational semantics
+forms a mathematical artifact that is subject to deeper analysis than what
+can be gained simply from screen or input device recordings. For example,
+we can carry out causal analysis, asking ``why'' queries of trace data,
+e.g. ``Why was the player to unlock the door before defeating the boss?'',
+as well as filtering traces for desired properties: ``Show me a play trace
+where the player used something other than the torch to light the room.''
+The recent PlaySpecs project (XXX cite) suggests interest in formulating
+traces this way to support this kind of query.
+
+{\bf Player skills as programs.} While a play trace may be interpreted as a
+straight-line program, even more interesting is the idea of latent
+structure in player actions, such as composing multiple low-level game
+actions into a higher-level skill, following the cognitive idea of
+``chunking.'' We map this idea onto that of {\em functions} in the
+programming language that take arguments, generalizing over state space
+possibilities (e.g.: the red key opened the red door, so for all colors
+$C$, a $C$ key will open a $C$ door). Further reasoning forms like case
+analysis to handle unpredictable game behavior and repeating an action
+until a condition holds are also naturally expressed as programming
+language constructs.
+
+
+\subsection{Abstraction boundaries between input and mechanics}
+
+(XXX provide evidence, and or more detail?)
+
+Formalizing game interfaces gives us the tools to explore alternative
+interfaces to the same underlying mechanics, without needing to port
+game logic between different graphical interface frameworks. For example,
+the interactive fiction community has been exploring alternatives to the
+two traditional dichotomy of ``parser vs. hypertext'' for presenting
+text-based games and interactive story-worlds. An abstraction boundary
+between the underlying mechanics, map, and narrative of the world, and the
+view and input mechanisms used to interact with it, could open the doors to
+research on user interfaces that support players' mental models of a world
+conveyed in text.
+
+\subsection{Scripting languages for free and co-creative play}
+
+Finally, a strong advantage of (XXX)
+
+
+\subsection{Future Work}
+  % Future work: try to draw further analogies. Better REPLs for PLs? 
+  In future work, we intend to build software for realizing game language
+  designs and experimenting with protocol-based game AI developed as
+  programs in these languages. In another direction, we aim to innovate in
+  PL design outside of games, such as read-eval-print loops (REPLs) for
+  live programming that includes rapid feedback loops motivated by
+  gameplay, as well as distributed and concurrent systems that may benefit
+  from the protocol-based approach proposed here.
+
