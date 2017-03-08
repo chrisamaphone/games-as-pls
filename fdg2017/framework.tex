@@ -69,23 +69,35 @@
   the design space of interfaces for such a game:
 
   \begin{itemize}
-  \item A first-person point-and-click interface where the meaning of each click is
-    defined based on the region the cursor falls in. Clicking near any of the
-    four screen edges moves in that direction; clicking on a sprite
-    representing an item takes it.
-  \item A top-down point-and-click interface where a click on a room
-    indicates intent to move there, and a click on an item indicates intent
-    to take it, but those actions only work if the player avatar is adjacent
-    to the indicated room or item.
-  \item A keyboard-based interface where each arrow key moves in a
-    different direction and a special key such as the spacebar expresses
-    the $\ctake$ action.
-  \item A command-line based interface where the player types free-form
-    text, which is then parsed into commands, such as \verb|take lamp| and \verb|move north|.
-  \item A choice-based hypertext interface where all available options are
-    enumerated and the player selects one.
+   \item {\bf Point-and-Click:} A first-person viewpoint interface where the
+     meaning of each click is defined based on the region the cursor falls
+     in. Clicking near any of the four screen edges moves in that
+     direction; clicking on a sprite representing an item takes it.
+  \item {\bf Bird's-Eye:} A top-down viewpoint interface where the player can see multiple
+    rooms at once, and can click on rooms and objects that are far away,
+    but those clicks only do something to objects in the same room or
+    adjacent rooms.
+  \item {\bf WASD+:} A keyboard or controller-based interface with
+    directional buttons (e.g. arrow keys or WASD) move an avatar in the
+    correspondingi direction, and a separate key or button expresses
+    the $\ctake$ action, which takes any object in the same room. (This
+    interface may be used for either of the two views described above.)
+  \item{\bf Command-Line:} The player interacts by typing free-form text, 
+    which is then parsed into commands, such as \verb|take lamp| and \verb|move north|.
+  \item{\bf Hypertext}: A choice-based interface where all available options are
+    enumerated as textual links from which the player chooses.
   \end{itemize}
 
+  \begin{figure*}
+    \includegraphics[width=0.4\textwidth]{../uis/point-and-click.png}
+    \includegraphics[width=0.4\textwidth]{../uis/birds-eye-view.png}
+
+    \includegraphics[width=0.4\textwidth]{../uis/parser.png}
+    \includegraphics[width=0.4\textwidth]{../uis/hypertext.png}
+  \end{figure*}
+
+  These interfaces are shown in Figure(XXX) (with the exception of WASD+,
+  which is visually indistinguishable from Bird's Eye).
   In the following subsections, we will consider these possibilities in
   light of design choices relevant to the specified aspect of PL design.
 
