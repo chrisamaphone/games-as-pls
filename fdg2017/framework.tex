@@ -324,20 +324,30 @@
   interface (or language) designers may feel to players like being asked to
   speak a foreign language for each new game.
 
-  \subsection*{Observations}
-  XXX
-
-% XXX where does this go?
-%   Just like with the rest of a game's rules, its language of play has both
-%   additive and subtractive properties: it provides the menu of options for
-%   what types of things are {\em permissible}, i.e. likely to result in
-%   meaningful interaction with the game system, but it also establishes
-%   which utterances are {\em disallowed}, e.g. that it is not meaningful to
-%   say ``take'' without providing an object to the command.
-
+  \subsection*{Additive and subtractive properties of syntax}
   
-  At the same time, the hypertext language, by virtue of disallowing
-  arbitrary combinations of pieces of syntax, 
+  By now we are able to observe that, just like the rest of a game's rules,
+  its syntax has both additive and subtractive properties. It provides the
+  menu of options for which hardware interactions are {\em relevant}, i.e.
+  likely to result in meaningful interaction with the game system, but it
+  also establishes which utterances within that set are {\em disallowed},
+  or ill-formed---e.g. that it is not meaningful to say ``take'' without
+  providing an object to the command, or that ``take north'' is ill-formed.
+
+  Correspondingly, an important decision that impacts game design is (a)
+  how discoverable the additive affordances are (e.g. can the player
+  determine that ``examine'' is a meaningful verb without already
+  possessing literacy in the game's genre?) and (b) the extent to which the
+  user interface makes meaningless expressions impossible to form. For
+  example, in a hypertext interface, all links lead somewhere---so every
+  intent the player can form, i.e. clicking a link on the page, will get a
+  valid response from the game, whereas ``take fnord'' typed at a
+  command-line interface may be recognized by the parser, but meaningless
+  to a game where ``fnord'' is not a noun.  Decisions about these two
+  (related) dimensions will determine the extent to which {\em learning the
+  language}, an exploratory but sometimes frustrating process, is a central
+  challenge of the game.
+  
 
   \section{Structured affordances as type systems}
   (XXX does this go somewhere else?)
