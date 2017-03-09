@@ -1,17 +1,32 @@
   % Background: Syntax, type systems, and operational semantics
+\newcommand{\param}[1]{\langle #1 \rangle}
+\newcommand{\syn}[1]{\mathsf{#1}}
+
+  \begin{figure*}
+    \begin{tabular}{|l|c|}
+      \hline
+      Language layer   & $\syn{move}(dir)$, etc. (XXX) \\
+      \hline
+      Affordance layer &
+        \includegraphics[width=0.5\textwidth]{ui-elements.png}\\
+      \hline
+      Device layer & 
+        \includegraphics[width=0.4\textwidth]{control-devices.png}\\
+      \hline
+    \end{tabular}
+    \caption{XXX caption}
+    \label{fig:layers}
+  \end{figure*}
 
   In the formal study of a programming langugage, one may define a language
   in three parts: syntax, type system, and operational semantics.
   \begin{itemize}
     \item The {\em syntax} is written in the form of a (usually)
-      context-free grammar describing the allowable expressions.
-    \item A {\em type system} further refines the set of allowable
-      expressions into a set of {\em meaningful} expressions, and provides
-      a mapping between an expression and an approximation of its meaning.
-      Type systems are usually designed in conjunction with the operational
-      semantics to have the property that {\em well-typed programs don't go
-      wrong}, i.e., every expression assigned a meaning by the type system
-      should have a well-defined runtime behavior.
+      context-free grammar describing the allowable expressions. One
+      sometimes distinguishes between {\em concrete syntax}, the literal
+      program tokens that the programmer strings together in the act of
+      programming, and {\em abstract syntax}, the normalized ``syntax
+      tree'' structures that ultimately get interpreted. 
     \item An {\em operational semantics} defines how runnable programs
       (e.g. a function applied to an argument) {\em reduce} to values. This
       part of the definition describes how actual computation takes place
@@ -21,6 +36,19 @@
       versus ``interpreted'' understanding of the language: it is simply a
       mathematical specification for how any compiler or interpreter for
       the language should behave.
+    \item A {\em type system} further refines the set of syntactically
+      valid expressions into a set of {\em meaningful} expressions, and provides
+      a mapping between an expression and an approximation of its meaning.
+      Type systems are usually designed in conjunction with the operational
+      semantics to have the property that every expression assigned a
+      meaning by the type system should have a well-defined runtime
+      behavior. In practice, however, type systems can only approximate
+      this correspondence. Some err on the more permissive side--e.g.
+      C's type system will permit invalid memory accesses with no
+      language-defined behavior--and some err on the more restrictive side,
+      e.g. Haskell's type system does not permit any untracked
+      side-effects, at the expense of easily authoring e.g. file input/output
+      (without first learning the details of the type system).
   \end{itemize}
   
   Providing a formal language definition in programming languages research
@@ -65,8 +93,9 @@
   We will use as a running example a minimal virtual environment with two
   player actions: (1) movement through a discrete set of rooms in a
   pre-defined map ($\cmove$); (2) acquiring objects placed in those rooms to store in
-  a player inventory ($\ctake$).  We can consider several possibilities in
-  the design space of interfaces for such a game:
+  a player inventory ($\ctake$).  We consider five (somewhat aribitrary)
+  possibilities in the design space of interfaces for such a game,
+  summarized visually in Figure~\ref{fig:uis}:
 
   \begin{itemize}
    \item {\bf Point-and-Click:} A first-person viewpoint interface where the
@@ -90,20 +119,24 @@
 
   \begin{figure*}
     \begin{tabular}{cc}
-    \includegraphics[height=0.25\textheight]{../uis/point-and-click.png}
-    \includegraphics[height=0.25\textheight]{../uis/bev-color.png}
+      \includegraphics[height=0.2\textheight]{../uis/point-and-click.png} &
+    \includegraphics[height=0.2\textheight]{../uis/bev-color.png}
     \\
-    \includegraphics[height=0.25\textheight]{../uis/parser.png}
-    \includegraphics[height=0.25\textheight]{../uis/hypertext.png}
+    Point-and-click & Bird's eye view/WASD+\\
+    \includegraphics[height=0.2\textheight]{../uis/parser.png} &
+    \includegraphics[height=0.2\textheight]{../uis/hypertext.png}\\
+    Command-line & Hypertext
   \end{tabular}
+  \caption{Four different user interfaces for the move/take game.}
+  \label{fig:uis}
   \end{figure*}
 
-  These interfaces are shown in Figure(XXX) (with the exception of WASD+,
-  which is visually indistinguishable from Bird's Eye).
-  In the following subsections, we will consider these possibilities in
-  light of design choices relevant to the specified aspect of PL design.
+  In the
+  following subsections, we will consider these possibilities in light of
+  design choices relevant to the specified aspect of PL design.
 
   \subsection{Player actions as syntax}
+
 
   The {\em syntax} of a game is its space of recognized player intentions.
   Note that {\em intention} is different from {\em action} in the sense
