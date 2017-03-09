@@ -2,21 +2,6 @@
 \newcommand{\param}[1]{\langle #1 \rangle}
 \newcommand{\syn}[1]{\mathsf{#1}}
 
-  \begin{figure*}
-    \begin{tabular}{|l|c|}
-      \hline
-      Language layer   & $\syn{move}(dir)$, etc. (XXX) \\
-      \hline
-      Affordance layer &
-        \includegraphics[width=0.5\textwidth]{ui-elements.png}\\
-      \hline
-      Device layer & 
-        \includegraphics[width=0.4\textwidth]{control-devices.png}\\
-      \hline
-    \end{tabular}
-    \caption{XXX caption}
-    \label{fig:layers}
-  \end{figure*}
 
   In the formal study of a programming langugage, one may define a language
   in three parts: syntax, type system, and operational semantics.
@@ -89,6 +74,7 @@
 
   \newcommand{\cmove}{\mathsf{move}}
   \newcommand{\ctake}{\mathsf{take}}
+  \newcommand{\ccollect}{\mathsf{collect}}
 
   We will use as a running example a minimal virtual environment with two
   player actions: (1) movement through a discrete set of rooms in a
@@ -132,11 +118,76 @@
   \end{figure*}
 
   In the
-  following subsections, we will consider these possibilities in light of
+  following sections, we will consider these possibilities in light of
   design choices relevant to the specified aspect of PL design.
 
-  \subsection{Player actions as syntax}
+  \section{Player actions as syntax}
 
+%   \begin{figure*}
+%     \begin{tabular}{|l|c|}
+%       \hline
+%       Language layer   & $\syn{move}(dir)$, etc. (XXX) \\
+%       \hline
+%       Affordance layer &
+%         \includegraphics[width=0.5\textwidth]{ui-elements.png}\\
+%       \hline
+%       Device layer & 
+%         \includegraphics[width=0.4\textwidth]{control-devices.png}\\
+%       \hline
+%     \end{tabular}
+%     \caption{XXX caption}
+%     \label{fig:layers}
+%   \end{figure*}
+% 
+% 
+%   The {\em syntax} of a game is its space of recognized player commands.
+%   However, this statement alone is imprecise: what counts as a {\em
+%   command}, and what counts as {\em recognition}? Consider the
+%   stratification of abstraction layers in Figure~\ref{fig:layers}: on the
+%   hardware device level (which we consider out of scope for this paper),
+%   the player issues a command by pressing, tapping, twisting, etc. 
+%   physical buttons, keys, screens, and other tactile or embodied
+%   affordances. This layer contends with the interactions between the
+%   player's physical body and the game system. At the next layer up are
+%   software affordances, or ``UI (user interface) elements:'' buttons,
+%   sliders, menus, and other on-screen widgets that serve both to cue the
+%   player ``interact with this'' and to {\em limit} the space of possible
+%   hardware interactions (e.g. mouse clicks) to those that are relevant to
+%   the particular software (e.g. buttons, check-boxes). Finally, the {\em
+%   language} layer is closest to the game's mechanics themselves: the
+%   recognized verbs, nouns, and other data relevant to a diagetic {\em
+%   intent} that the player wishes to carry out.
+% 
+%   The two processing steps in this pipeline---device to affordance, and
+%   affordance to language---resemble the distinction between concrete and
+%   abstract syntax. An important difference between the two levels is
+%   whether {\em context matters}: the keys on a keyboard may be pressed at
+%   any time during a player's interaction with a computer; context within
+%   the game world does not restrict their use. On the other hand, which menu
+%   options are available may depend a great deal on context: if a player has
+%   opened their inventory, different options may be available from those
+%   available when looking at, say, an overworld map. Correspondingly,
+%   context-independent actions are probably carried out
+%   repeatedly---pressing arrow keys and space in a PC platformer using those
+%   keys as controls, for example. On the other hand, their interpretation
+%   one layer up---``jump onto the transport platform'' or ''fall down onto
+%   (a specific) enemy NPC''---only make sense in very specific game world
+%   contexts and are infrequently (or perhaps never) repeated.
+% 
+%   Where to draw the line between concrete and abstract is largely a matter
+%   of choice that will determine how we can view and analyze a game.
+%   In the following examples, we describe concrete syntax in terms of
+%   anything a player can do that the game's audiovisual interface suggests
+%   might be possible: e.g. if a mouse cursor is displayed whenever the
+%   player moves the mouse, then we consider a mouse click anywhere on the
+%   screen to be part of the concrete syntax. If a player is allowed to type
+%   arbitrary text (or speak aloud arbitrary phonemes), and the game
+%   interface displays or repeats back what the player said, then we consider
+%   the concrete syntax to be those arbitrary sequences of characters or
+%   phonemes.
+% 
+%   At the abstract layer, we 
+%   
 
   The {\em syntax} of a game is its space of recognized player intentions.
   Note that {\em intention} is different from {\em action} in the sense
@@ -152,46 +203,144 @@
   the player click anywhere, or only in regions that have meaning? Can the
   player type arbitrary commands, or should we provide a menu or
   auto-complete text so as to prevent the player from entering meaningless
-  commands?
-  In PL, we can formalize these decisions by describing an {\em abstract
-  syntax} for our language, which is typically assumed to be context-free
-  and thus specified as a Bachus-Naur Form (BNF) grammar. As one example,
-  the BNF for the keyboard-based interface might look like:
+  commands?  In PL, we can formalize these decisions by describing an {\em
+  abstract syntax} for our language, which is typically assumed to be
+  context-free and thus specified as a Bachus-Naur Form (BNF) grammar. Our
+  examples below follow the interfaces shown visually in
+  Figure~\ref{fig:uis}.
+  
+  \textbf{WASD+ Interface}:
+  One way of writing the BNF for the WASD+ interface is:
 
   \begin{eqnarray*}
   direction &::=& \mathsf{north} \mid \mathsf{south} \mid \mathsf{east}
     \mid \mathsf{west} \\
-  intent &::=& \cmove\  \langle direction \rangle \mid \ctake
+  intent &::=& \cmove \langle direction \rangle \mid \ccollect
   \end{eqnarray*}
 
-  XXX more here...
+  The hardware interface maps onto this syntax quite directly:
+  each arrow key maps onto a $\cmove$ action in the corresponding
+  direction, and the specified other key maps onto $\ccollect$.
 
-  BNF for interface 2:\\
-  \verb/go <dir> | take <thing>/\\
-  n.b. larger set of allowable utterances; meaning is less contextual
-  (easier to infer by itself what parts of the game state it will depend
-  on)
+  \textbf{Bird's Eye View Mouse Interface}:
+  On the other hand, a clicking-based interface to a top-down map could
+  enable the player to click on any room on the map and any item within a
+  room. This syntax would look like:
 
-  BNF for interface 3:\\
-  \verb/move <dir>/\\
-  n.b. much {\em more} contextual; it's impossible to infer what each
-  action will ``do'' in the game and which parts of the game environment it
-  depends on
+  \begin{eqnarray*}
+    room   &::=& \syn{courtyard} \mid \syn{library} \mid \syn{quarters}
+              \mid \syn{lab}\\
+    item   &::=& \syn{flask} \mid \syn{book}\\
+    entity &::=& room \mid item\\
+    intent &::=& \syn{click}\param{entity}
+  \end{eqnarray*}
 
-  Additive vs. subtractive affordances:
+  Note that this syntax, compared to that for WASD+, describes a larger set
+  of possible utterances, even though it has the exact same set of
+  permitted game behaviors (a player may only move into adjacent rooms and
+  take items that share a room with them). 
 
-  Just like with the rest of a game's rules, its language of play has both
-  additive and subtractive properties: it provides the menu of options for
-  what types of things are {\em permissible}, i.e. likely to result in
-  meaningful interaction with the game system, but it also establishes
-  which utterances are {\em disallowed}, i.e. that it is not meaningful to
-  say ``take'' without providing an object to the command.
+% XXX make this point at the end of the section
+%   The {\em size} of the player
+%   intent language, i.e. the number of distinct intents it is possible to
+%   form and express through the game language, constitutes a significant
+%   aspect of the game design. A game with fewer expressible intents might
+%   feel easier, and conversely less exploratory: the player is only allowed
+%   to speak utterances that the game is guaranteed to validate. 
 
-  ... is the grammar for a blank text field that or is it just any typed
-  string, and the type system what enforces the grammatical structure?
-  (XXX)
+  \textbf{Command Line Interface}:
+  The command-line interface would have an even larger space of expressible
+  utterances if we consider all typed strings of characters to be valid
+  expressions, but that syntax is too low-level for linguistic
+  considerations. Supposing we interpose a parsing layer between arbitrary
+  typed strings and syntactically-well-formed commands, we can define the
+  abstract syntax as follows (where $direction$ and $item$ are assumed to
+  be defined as they were in the previous examples):
 
-  \subsection{Structured affordances as type systems}
+  \begin{eqnarray*}
+    intent &::=& \cmove\param{direction} \mid \ctake\param{item}
+  \end{eqnarray*}
+
+  Assuming the player ``knows the language,'' i.e. knows that $\cmove$
+  and $\ctake$ are valid commands, and in fact the {\em only} valid
+  commands, and assuming that she knows how to map the visual affordances
+  (e.g. image of the flask) to the typed noun (e.g. \verb|flask|), the
+  experience afforded by this interface is quite similar to the WASD+
+  interface. The main difference is that the player must specify an {\em
+  argument} to the $\syn{take}$ command, asking the player to formulate a
+  more complete (and unambiguous) intent by actually naming the object she
+  wishes to take.
+
+%   When a player sees an empty command prompt as an interface to a game, she
+%   may try using another language she knows, such as one used in classic
+%   interactive fiction that recognizes a wide space of valid imperative
+%   sentences:
+%   \begin{eqnarray*}
+%     intent &::=& iverb \mid
+%                  tverb\param{noun} \mid
+%                  \syn{go}\param{direction} \\
+%              &\mid& \syn{put}\param{noun}\syn{\ on}\param{noun} \\
+%              &\mid& \syn{strike}\param{noun}\syn{\ with}\param{noun}\\
+%              &\mid& \hdots\\
+%     iverb &::=& \syn{look} \mid \syn{listen} \mid \syn{wait} \mid \hdots\\
+%     tverb &::=& \syn{take} \mid \syn{examine} \mid \syn{drop}\mid \hdots
+%   \end{eqnarray*}
+
+
+
+  \textbf{Hypertext interface}:
+  
+  Finally, we consider the intent language for the hypertext interface.
+  This is one of the most difficult interfaces to formulate in linguistic
+  terms, because it either requires that we formalize link selection in an
+  acontextual way (e.g. as a numeric index into a list of options of
+  unknown size) or that we formulate each link {\em from each page} as its
+  own separate command, each of which has meaning in only one specific game
+  context (namely, when the player is on the page containing that link).
+  The former feels like a more general formulation of hypertext that is not
+  relevant to any particular game, and since we are aiming to provide a
+  correspondence between specific games and languages, we opt for the
+  latter:
+
+  \begin{eqnarray*}
+    intent &::=& \syn{select}\param{choice}\\
+    choice &::=& \syn{take\_flask\_from\_lab}\\
+           &\mid& \syn{take\_book\_from\_library}\\
+           &\mid& \syn{go\_south\_from\_lab} \\
+           &\mid& \syn{go\_east\_from\_lab} \\
+           &\mid& \syn{go\_west\_from\_lab} \\
+           &\mid& \syn{go\_north\_from\_library} \\
+           &\mid& \hdots
+  \end{eqnarray*}
+
+  Some hypertext authors put a lot of effort into scaffolding the
+  choice-based experience with a richer language, e.g. by repeating the
+  same set of commands across different pages that behave in consistent
+  ways, or by creating menu-like interfaces where text cycles between
+  options on an otherwise static page. In this way, hypertext as a medium
+  might be said as providing a playform for designers to create their own
+  interface conventions, rather than relying on a set of pre-established
+  ones; by the same token, hypertext games created by inexperienced
+  interface (or language) designers may feel to players like being asked to
+  speak a foreign language for each new game.
+
+  \subsection*{Observations}
+  XXX
+
+% XXX where does this go?
+%   Just like with the rest of a game's rules, its language of play has both
+%   additive and subtractive properties: it provides the menu of options for
+%   what types of things are {\em permissible}, i.e. likely to result in
+%   meaningful interaction with the game system, but it also establishes
+%   which utterances are {\em disallowed}, e.g. that it is not meaningful to
+%   say ``take'' without providing an object to the command.
+
+  
+  At the same time, the hypertext language, by virtue of disallowing
+  arbitrary combinations of pieces of syntax, 
+
+  \section{Structured affordances as type systems}
+  (XXX does this go somewhere else?)
   
   Whether an utterance is {\em meaningful} or not will depend on
   the runtime game state, and is a distinct question from whether it is
@@ -223,6 +372,9 @@
   choice-based interfaces...
 
 
+  \section{Mechanics as operational semantics}
+
+  (XXX move this before or after opsem part?)
   \subsection{Game environment as external runtime}
 
   To characterize mechanics, we will also need an account of expressions
@@ -230,75 +382,35 @@
   make an object disappear, etc. --- things more commonly accounted for in
   formal game description languages). 
 
-  We will also need to characterize ``hidden'' state of the game...
-  predicate syntax... locations of things, adjacency graph to describe the
-  world map
-
-  World state $\sigma$; game expressions $e_g$; used in the judgments
-  defining operational semantics below
-
-
-  \subsection{Mechanics as operational semantics}
-
-  XXX - need to explain step syntax, as well as inference rules
+  (XXX more; transition?)
+%   We will also need to characterize ``hidden'' state of the game...
+%   predicate syntax... locations of things, adjacency graph to describe the
+%   world map
+% 
+%   World state $\sigma$; game expressions $e_g$; used in the judgments
+%   defining operational semantics below
 
   \input{sec-opsem}
   
-  \newcommand{\stepsto}{\rightsquigarrow}
 
-  Judgment: $\sigma; e_p \stepsto \sigma'; e_g$ \\
-  where $e_p$ is a player expression and $e_g$ is a game expression, and
-  $\sigma$ and $\sigma'$ are game states. This judgment should be read:
-  ``Under state $\sigma$, the game responds to player action $e_p$ by
-  changing to state $\sigma'$ and conveying information $e_g$.''
-
-  Mechanics of interface 1:
-
-  \[
-    \infer{
-      \sigma, at(R); PLAYER: move<dir> \stepsto \sigma, at(R'); GAME:
-      display(R')
-    }
-    {
-      indir(dir, R, R') \in \sigma
-    }
-  \]
-
-
-  \[
-    \infer{
-      \sigma, at(R); PLAYER: move<dir> \stepsto 
-      \sigma; GAME: \mathsf{fail\_feedback}
-    }
-    {
-      indir(dir, R, R') \notin \sigma
-    }
-  \]
-
-  XXX more rules
-
-  n.b. this semantics is not really ``complete'' in the sense that it does
-  not define meaning for sequences of actions, just single exchanges... how
-  to compose actions?
-
-  \subsection{Play traces as (normalized) programs}
+  \section{Play traces as straight-line programs}
   
   Argument for having a syntactically-well-founded structured term for a
-  play trace
+  play trace (XXX)
 
-  \subsection{Theorems?}
-
-  While it is not often considered of high priority for game designers to
-  prove theorems about their software, and in fact a rich culture is
-  enjoyed around the concept of {\em glitches} in games programs, a
-  meticulous designer may still wish to understand the scope, complexity,
-  and compatibility of her game approximated by compatibility between 
-  player affordances and game rules. A formal examination of the game's
-  properties, when studied as a programming language, can provide just
-  that:
-
-  Well-typed programs don't go wrong ~= every possible player utterance has
-  a defined meaning within the game rules
-
-  XXX example of this failing?
+%   \section{Theorems?}
+% 
+%   While it is not often considered of high priority for game designers to
+%   prove theorems about their software, and in fact a rich culture is
+%   enjoyed around the concept of {\em glitches} in games programs, a
+%   meticulous designer may still wish to understand the scope, complexity,
+%   and compatibility of her game approximated by compatibility between 
+%   player affordances and game rules. A formal examination of the game's
+%   properties, when studied as a programming language, can provide just
+%   that:
+% 
+%   Well-typed programs don't go wrong ~= every possible player utterance has
+%   a defined meaning within the game rules
+% 
+%   XXX example of this failing?
 
