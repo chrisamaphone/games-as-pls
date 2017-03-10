@@ -225,8 +225,10 @@ action water_until_harvestable[t](p: planted(t))
 \end{verbatim}
 See Figure~\ref{fig:harvest} for a control flow diagram of this code.
 
-The next example shows how action definitions may be used by (``called'' from) other
-action definitions by threading resource dependencies through:
+The next example shows a parallel construct \verb/||/, which can be used to
+compose actions with distinct dependencies, as well as
+how an action definition may use other action definitions by threading
+resource dependencies through as arguments:
 
 \begin{figure}
   \includegraphics[width=0.4\textwidth]{sdv-grow-crop.png}

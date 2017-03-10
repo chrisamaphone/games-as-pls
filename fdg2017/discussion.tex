@@ -23,11 +23,11 @@ of steps along the transition system described by the operational semantics
 forms a mathematical artifact that is subject to deeper analysis than what
 can be gained simply from screen or input device recordings. For example,
 we can carry out causal analysis, asking ``why'' queries of trace data,
-e.g. ``Why was the player to unlock the door before defeating the boss?'',
+e.g. ``Why was the player able to unlock the door before defeating the boss?'',
 as well as filtering traces for desired properties: ``Show me a play trace
 where the player used something other than the torch to light the room.''
-The recent PlaySpecs project (XXX cite) suggests interest in formulating
-traces this way to support this kind of query.
+The recent PlaySpecs project~\cite{osborn2015playspecs} suggests interest
+in formulating traces this way to support this kind of query.
 
 {\bf Player skills as programs.} While a play trace may be interpreted as a
 straight-line program, even more interesting is the idea of latent
@@ -44,7 +44,7 @@ language constructs.
 
 \subsection{Abstraction boundaries between input and mechanics}
 
-(XXX provide evidence, and or more detail?)
+% (XXX provide evidence, and or more detail?)
 
 Formalizing game interfaces gives us the tools to explore alternative
 interfaces to the same underlying mechanics, without needing to port
@@ -57,9 +57,24 @@ view and input mechanisms used to interact with it, could open the doors to
 research on user interfaces that support players' mental models of a world
 conveyed in text.
 
-\subsection{Scripting languages for free and co-creative play}
+\subsection{Enabling co-creative play}
 
-Finally, a strong advantage of (XXX)
+Finally, a PL formulation of player actions along with appropriate
+composition operators (parallel and sequential composition, branching, and
+passing resource dependencies) provides a ``scripting language for free''
+to the game environment. 
+Such a language can be used to test the game, provided as a game mechanic
+as in BOTS, or provided as an optional augmentation to the game's mechanics
+for the sake of modding or adding new content to the game world. Especially
+in networked game environments, like multi-user domains, massively
+multiplayer online games, and social spaces like Second Life, the ability
+for the player to program not just her avatar but parts of the game world
+itself introduces new opportunities for creative and collaborative play.
+Our framework suggests a new approach to designing these affordances for
+players in a way that is naturally derived from the game's existing
+mechanics and interface.  In the spirit of {\em celebrating the player},
+this year's conference theme, we wish to enable the player as a
+co-designer of her own game experience.
 
 
 \subsection{Future Work}
