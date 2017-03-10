@@ -1,35 +1,55 @@
-Up to this point, we have described languages of player expression as
-single utterances in isolation from one another, but we have not considered
-their composition, i.e. how sequences of actions can be employed to carry out
-more complex tasks. Games with rich player action languages afford modes of
-exploratory and creative play: consider item crafting in
+
+While considering ``straight-line'' traces may have some utility in player
+analytics, a more exciting prospect for formalizing game interactions as
+program constructs is the possibility of
+encoding {\em parameterized} sequences of actions that may carry out
+complex tasks. After all, games with rich player action languages afford
+modes of exploratory and creative play: consider item crafting in
 Minecraft~\cite{minecraft}, puzzle solving in Zork~\cite{blank1980zork}, or
 creating sustainable autonomous systems like a supply chain in
 Factorio~\cite{factorio}, a farm in Stardew Valley~\cite{stardew}, or a
 transit system in Mini Metro~\cite{minimetro}.  Each of these activities
 asks the player to understand a complex system and construct multi-step
-sequences of actions to accomplish specific tasks, such as going from the
-game state of having a few coins and an empty field to the game state of
-having a thriving farm.
+sequences of actions to accomplish specific tasks. From the player's
+perspective, these plans are constructed from higher-level activities,
+such as {\em growing a crop} or {\em constructing a new tool}, which
+themselves are constructed from the lower level game intent language.
 
 A language, as we have formalized it, gives us the atomic pieces from which
-we can construct these sequences, like Lego bricks. {\em Compositionality}
+we can construct these sequences, like Lego bricks can be used to construct
+reconfigurable components of a house or spaceship. {\em Compositionality}
 in language design is the principle that we may understand the meaning and
 behavior of compound structures (e.g. sequences) in terms of the meaning
 and behavior of each of its pieces (e.g. actions), together with the
 meaning of how they are combined (e.g. carried out one after the other, or
 in parallel). In this section, we describe how we might make sense of {\em
-player skills} in terms of complex programs written in the player language.
+player skills} in terms of programs written in a more complex version of
+the player language.
+
+\begin{figure}
+  \includegraphics[width=0.45\textwidth]{bots.png}
+  \caption{A screenshot from BOTS, an educational game in which players
+  write programs to direct a player avatar.}
+  \label{fig:bots}
+\end{figure}
 
 Such programs might be integrated into a game's mechanics so that a player
 explicitly writes such programs, as in the BOTS game, an interactive
 programming tutor that asks players to write small imperative programs that
-direct an avatar within a virtual world~\cite{hicks2012creation}, or Cube
+direct an avatar within a virtual world~\cite{hicks2012creation} (see
+Figure~\ref{fig:bots}), or Cube
 Composer\footnote{\url{http://david-peter.de/cube-composer/}}, in which
 players write functional programs to solve puzzles. However, for now, we
 primarily intend this account of player skills as a conceptual tool.
 
 \subsection{Example: Stardew Valley}
+
+\begin{figure}
+  \includegraphics[width=0.45\textwidth]{stardew-valley.png}
+  \caption{A screenshot from Stardew Valley showing the player's farm,
+  inventory, and avatar.}
+  \label{fig:stardew}
+\end{figure}
 
 Our initial $\{\cmove, \ctake\}$ example is too simple to craft really
 compelling examples of complex programs, so here we examine
@@ -40,10 +60,11 @@ hoe, scythe, pickaxe) which do different things in contact with the
 resources in the surrounding environment; most include extracting some
 resource (wood, stone, fiber, and so on), which themselves enter the
 player's inventory and can be used in further interaction with the game
-world. There are also context-sensitive interactions between the player and
+world (see Figure~\ref{fig:stardew}. 
+There are also context-sensitive interactions between the player and
 non-player characters (NPCs), interfaces through which new items may be
 purchased (shops), and mini-games including fishing (fish may also be sold
-at high value).
+at high value). 
 
 While a full account of the language that this game affords the player is
 beyond the scope of this paper, we include a representative sample of the
