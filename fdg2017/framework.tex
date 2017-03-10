@@ -289,7 +289,6 @@
 
 
   \textbf{Hypertext interface}:
-  
   Finally, we consider the intent language for the hypertext interface.
   This is one of the most difficult interfaces to formulate in linguistic
   terms, because it either requires that we formalize link selection in an
@@ -405,8 +404,81 @@
 
   \section{Play traces as straight-line programs}
   
-  Argument for having a syntactically-well-founded structured term for a
-  play trace (XXX)
+%  Argument for having a syntactically-well-founded structured term for a
+%  play trace (XXX)
+
+    If we consider the analogy of game interfaces as programming languages,
+    the natural question arises, what is a {\em program} written in this
+    programming language? We want to at least consider individual, atomic
+    player actions to be complete programs; the preceding text provides
+    such an account. But typical programs are more than one line
+    long---what does it mean to sequence multiple actions in a game
+    language?
+
+    In a typical account of an imperative programming language, we
+    introduce a sequencing operator $;$ where, if $c_1$ and $c_2$ are
+    commands in the language, then $c_1;c_2$ is also an command.
+    The operational semantics of such an command involves the
+    composition of transformations on states $\sigma$:
+
+    \[
+      \infer{
+        \left< \sigma; (c_1;c_2)\right> \longrightarrow
+        \sigma_2
+      }
+      {
+        \left<\sigma; c_1 \right> \longrightarrow
+          \sigma_1
+        \quad
+        \left<\sigma_1; c_2 \right> \longrightarrow
+          \sigma_2
+      }
+    \]
+
+    However, interactive software makes this account more complicated by
+    introducing the program response as a component. Instead of issuing
+    arbitrary commands in sequence, the player may wait for a response or
+    process responses in parallel with their decisions. In this respect, a
+    player's ``programming'' activity more closely resembles something like
+    live-coding than traditional program authoring. Execution of code
+    happens alongside its authorship, interleaving the two activities. If
+    we consider a round-trip through the game loop after each individual
+    command issued, then what we arrive at is a notion of program that
+    resembles a {\em play trace}: a log of player actions and game
+    responses during a play session, e.g.
+    \begin{quote}
+      PLAYER: go north\\
+      GAME: failure\\
+      PLAYER: take flask\\
+      GAME: success\\
+      PLAYER: go south\\
+      GAME: success
+    \end{quote}
+    Depending on the richness of our internal mechanics model, this play
+    trace may contain useful information about changes in internal state
+    related to the preconditions and effects of player actions. But the
+    main important thing to note is that, despite the informal syntax used
+    to present them here, these traces do not consist of strings of text
+    entered directly by the player or added as log information by the game
+    programmer---they are structured terms with abstract syntax that may be
+    treated to the same formal techniques of interpretation and analysis as
+    any program. And this syntax is at a high level of game-relevant
+    interactions, not at the level of hardware inputs and engine code.
+
+    Researchers in academia and the games industry alike have in recent
+    years been increasingly interested in play trace data for the sake of
+    analytics, such as understanding how their players are interacting with
+    different components of the game and responding to this game with
+    updates that support player interest.~\cite{el2013game} 
+    For the most part, this trace data is collected through telemetry or
+    other indirect means, like game variable monitoring, after which it
+    must be analyzed for meaning.~\cite{Canossa2013} More recently,
+    systems of structured trace terms that may be
+    analyzed with logical queries have been
+    proposed,~\cite{osborn2015playspecs} identifying as a benefit an
+    ability to support automated testing at the level of design intents.
+    Our PL analogy supports this line of inquiry and warrants
+    further comparison and collaboration.
 
 %   \section{Theorems?}
 % 
