@@ -52,25 +52,26 @@
   the formal specification in games research can play a similarly important
   function.
 
+  \begin{table}
+  \begin{tabular}{ll}
+    PL concept & Game concept\\
+    \hline
+    Syntax & Recognized player actions \\
+    Operational semantics & Game mechanics \\
+    Type system & Contextual interface \\
+    Straight-line programs & Play traces\\ 
+    General programs & Player skills
+  \end{tabular}
+  \caption{The proposed analogy between PL and game concepts.}
+  \label{tab:correspondence}
+  \end{table}
+
   Having provided loose definitions of these terms, we now wish to draw out
   the analogy between a {\em language} specification and a {\em game}
   specification. To treat a game in this manner, we wish to consider player
   affordances and actions, as well as their behavior (mechanics) in the
   context of the game's running environment. We summarize the components of
   this correspondence in Table~\ref{tab:correspondence}.
-
-  \begin{table}
-  \begin{tabular}{ll}
-    PL concept & Game concept\\
-    \hline
-    Syntax & Recognized player actions \\
-    Type system & Meaningful player actions \\
-    Operational semantics & Game mechanics \\
-    Runtime store & Game world \\
-    Normalized programs & Play traces 
-  \end{tabular}
-  \label{tab:correspondence}
-  \end{table}
 
   \newcommand{\cmove}{\mathsf{move}}
   \newcommand{\ctake}{\mathsf{take}}
@@ -117,9 +118,8 @@
   \label{fig:uis}
   \end{figure*}
 
-  In the
-  following sections, we will consider these possibilities in light of
-  design choices relevant to the specified aspect of PL design.
+  In the following sections, we will consider these possibilities in light
+  of design choices relevant to the specified aspect of PL design.
 
   \section{Player actions as syntax}
 
@@ -348,38 +348,6 @@
   challenge of the game.
   
 
-  \section{Structured affordances as type systems}
-  (XXX does this go somewhere else?)
-  
-  Whether an utterance is {\em meaningful} or not will depend on
-  the runtime game state, and is a distinct question from whether it is
-  well-formed. For example, whether or not we can {\em take
-  flask} depends on whether the flask is present, or indeed whether a {\em
-  flask} is even a recognized game object. But unless ill-formed intents can be
-  recognized a priori (such as: if we know the complete set of possible
-  game objects ahead of time and can reject commands that refer to entities
-  outside of that set), we must treat this command as well-formed {\em
-  syntax} and relegate its failure to integrate with the runtime game
-  environment to the {\em mechanics} (operational semantics).
-
-  However, we can rule out an approximation of ill-formed utterances using
-  type systems. For example, if we know the ...
-  (only take portable things, only talk to characters, etc - could be
-  specified at the grammar level)
-  
-  Providing the player with {\em only the option of saying} those
-  utterances that ``make sense'' in this regard corresponds to a strong
-  static type system: e.g. choice-based interface to parser-based
-  commands...
-
-  Consider fishing minigame in Stardew Valley: the player only has a way of
-  {\em expressing} a ``reel in fishing line'' verb in the context of the
-  fishing minigame. This action has no corresponding utterance in the main
-  interface of the game.
-
-  XXX analogy to structure editors, visual prog environments, discoverable
-  choice-based interfaces...
-
 
   \section{Mechanics as operational semantics}
 
@@ -400,6 +368,76 @@
 %   defining operational semantics below
 
   \input{sec-opsem}
+
+  \section{Contextual interfaces as type systems}
+
+  Decisions about interface syntax can, to some extent, limit or expand the
+  player's ability to form intents that will be met with failure, such as
+  moving through a wall or taking an object that does not exist. But
+  sometimes, whether an utterance is {\em meaningful} or not will depend on
+  the runtime game state, and can be considered a distinct question from whether it is
+  well-formed. For example, whether or not we can {\em take
+  flask} depends on whether the flask is present, but if the flask is an
+  object somewhere in the game, we must treat this command as well-formed {\em
+  syntax} and relegate its failure to integrate with the runtime game
+  environment to the {\em mechanics} (operational semantics).
+
+  However, some user interfaces nonetheless restrict the set of recognized
+  utterances in a way that depends on current game state. Consider a
+  point-and-click interface that changes the shape of the cursor to a hand
+  whenever it hovers over an interactable object, and only recognizes
+  clicks when it is in this state. Alternatively, consider the hypertext
+  interface, which only recognizes clicks on links made available in the
+  current page.  Providing the player with {\em only the option of saying}
+  those utterances that ``make sense'' in this regard corresponds to a
+  strong static type system for a programming language.
+
+  Type systems are typically formalized be defining a relation between
+  expressions $e$ and contexts $\Gamma$. Contexts are sets of specific
+  circumstances in which an expression is valid, or well-typed. Usually,
+  these circumstances have to do with {\em variables} in the program. For
+  example, the program expression $x+3$ is only well-typed if $x$ is
+  a number. ``$x$ is a number'' is an example of a fact that would be
+  contained in the context. Its well-typedness could be represented as
+  $x{:}\mathsf{num} \vdash x+3{\ \mathsf{ok}}$.
+  
+  In the move-take game, we can include aspects of game state in our
+  context, such as the location of the player and the adjacency mapping
+  between rooms in the world. An example of a typing rule we might include
+  to codify the ``only present things are takeable'' rule would be:
+
+  \[
+    \infer
+    { 
+      \Gamma \vdash \ctake\param{O}\ \syn{ok}
+    }
+    {
+      \Gamma \vdash \syn{playerIn}(R)
+      \quad
+      \Gamma \vdash \syn{at}(O, R)
+    }
+  \]
+
+  We then need to define a relation between concrete game states $G$ and
+  abstract conditions on those states, $\Gamma$. We might write this
+  relation $G\ :\ \Gamma$.
+  After such rules are codified, we can refine the ``game completeness''
+  conjecture to handle only those utterances that are well-typed:
+
+  \[
+  \begin{array}{cc}
+  \forall G_1, \mathit{intent}.
+  & (G_1\ :\ \Gamma)
+    \land
+    (\Gamma \vdash intent\ \syn{ok})
+  \\
+\Longrightarrow
+  \exists G_2, \mathit{resp}.
+  &\GameStep
+    {G_1}{\mathit{intent}}
+    {G_2}{\mathit{resp}}
+  \end{array}
+  \]
   
 
   \section{Play traces as straight-line programs}
@@ -495,4 +533,7 @@
 %   a defined meaning within the game rules
 % 
 %   XXX example of this failing?
+
+
+
 
