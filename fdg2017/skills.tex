@@ -84,7 +84,7 @@ that, for the sake of our example, movement towards an entity and movement
 offscreen (towards another room) are the only meaningful and distinct types
 of movement, which we refer to as $\syn{move\_near}$ and
 $\syn{move\_offscreen}$. These actions yield the following syntax:
-
+%
 % (an item is something held, an entity is something in the world)
 \begin{eqnarray*}
 intent &::=& \syn{select} \param{item}\\
@@ -93,7 +93,7 @@ intent &::=& \syn{select} \param{item}\\
        &\mid& \syn{move\_near} \param{entity}\\
        &\mid& \syn{move\_offscreen} \param{direction}
 \end{eqnarray*}
-
+%
 We leave the definition of items and entities abstract, but we could
 imagine it to simply list all possible items and entities in the world as
 terminal symbols.  
@@ -102,7 +102,7 @@ From these atomic inputs, we can start to construct higher-level actions
 performed in the game most frequently---tilling land, planting seeds,
 conversing with NPCs, and so on. These blocks of code may be assigned names
 like functions to be called in many contexts:
-
+%
 % we want to accurately reflect the
 % {\em extensibility} of Stardew Valley's player language by describing the
 % general system from which these actions are derived. In other words, rather
@@ -113,22 +113,18 @@ like functions to be called in many contexts:
 % more)
 % 
 % XXX semantics?
-
+%
 % Higher-level actions:
 \begin{verbatim}
-action till = 
-  select hoe; move_near hard_ground; 
-  apply hard_ground
-action plant = 
-  select seeds; move_near tilled_ground; 
-  apply tilled_ground
-action mine = 
-  select pickaxe; move_near rock; apply rock
-action enter_shop = 
-  move_near shop; inquire door(shop)
-action talk = move_near npc; inquire npc
+action till  = select hoe; move_near hard_ground; 
+               apply hard_ground
+action plant = select seeds; move_near tilled_ground; 
+               apply tilled_ground
+action mine  = select pickaxe; move_near rock; apply rock
+action talk  = move_near npc; inquire npc
+action enter_shop = move_near shop; inquire door(shop)
 \end{verbatim}
-
+%
 In turn, these larger skill molecules may be combined to accomplish
 specific tasks or complete quests.
 
@@ -148,7 +144,7 @@ simplified game response language consisting of two possibilities,
 $\syn{success}$ and $\syn{failure}$. We can introduce a $\syn{case}$
 construct into our language to handle each of these possibilities as a
 distinct branch of the program:
-
+%
 \begin{verbatim}
 action mine = 
   response = select pickaxe;
@@ -161,7 +157,7 @@ action mine =
     }
   | failure => fail;
 \end{verbatim}
-
+%
 However, to avoid handling failure at every possible action, a better
 approach is to explicitly indicate as parameters the world resources that
 each action needs in order to complete successfully.
@@ -173,13 +169,13 @@ these resources, and the game response language could include the resources
 it guarantees as outputs. Then we can write the program using simpler
 notation that refers to resource dependencies of the appropriate type
 (using notation \verb|resource : type|):
-
+%
 \begin{verbatim}
 action mine(p:pickaxe, r:rock) = 
   select p; move_near r; apply r
 : mineral
 \end{verbatim}
-
+%
 % The task of defining a language of compound actions enters novel territory
 % in programming language design, because compound player actions
 % are typically interleaved with game response: the player does not have full
@@ -204,13 +200,13 @@ skills: a \verb|do ... recv ...| notation indicates a command and then
 binds the response to a {\em pattern}, or structured set of variables,
 which can then be case-analyzed.
 Our first example is watering a crop until it may be harvested:
-
-\begin{figure}
+%
+\begin{figure}[t]
   \includegraphics[width=0.4\textwidth]{sdv-water-harvest.png}
   \caption{Watering a crop until it may be harvested.}
   \label{fig:harvest}
 \end{figure}
-
+%
 \begin{verbatim}
 action water_until_harvestable[t](p: planted(t))
 : crop(t) =
@@ -229,13 +225,13 @@ The next example shows a parallel construct \verb/||/, which can be used to
 compose actions with distinct dependencies, as well as
 how an action definition may use other action definitions by threading
 resource dependencies through as arguments:
-
-\begin{figure}
+%
+\begin{figure}[t]
   \includegraphics[width=0.4\textwidth]{sdv-grow-crop.png}
   \caption{Growing a crop.}
   \label{fig:grow}
 \end{figure}
-
+%
 \begin{verbatim}
 fun grow_crop[t : croptype](s:soil, w:watering_can)
 : crop(t) =

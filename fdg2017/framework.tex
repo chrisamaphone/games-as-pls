@@ -56,7 +56,7 @@
   \begin{tabular}{l|ll}
     PL concept & Game concept\\
     \hline
-    Syntax & Recognized player actions & (Section \ref{sec:syntax})\\
+    Syntax & Recognized player intents & (Section \ref{sec:syntax})\\
     Operational semantics & Game mechanics & (Section \ref{sec:opsem})\\
     Type system & Contextual interface & (Section \ref{sec:typesys})\\
     Straight-line programs & Play traces & (Section \ref{sec:traces})\\ 
@@ -127,7 +127,7 @@
   In the following sections, we will consider these possibilities in light
   of design choices relevant to the specified aspect of PL design.
 
-  \section{Player actions as syntax}
+  \section{Player intent as syntax}
   \label{sec:syntax}
 
 
@@ -219,13 +219,13 @@
   
   \textbf{WASD+ Interface}:
   One way of writing the BNF for the WASD+ interface is:
-
+  %
   \begin{eqnarray*}
   direction &::=& \mathsf{north} \mid \mathsf{south} \mid \mathsf{east}
     \mid \mathsf{west} \\
   intent &::=& \cmove \langle direction \rangle \mid \ccollect
   \end{eqnarray*}
-
+  %
   The hardware interface maps onto this syntax quite directly:
   each arrow key maps onto a $\cmove$ action in the corresponding
   direction, and the specified other key maps onto $\ccollect$.
@@ -234,7 +234,7 @@
   On the other hand, a clicking-based interface to a top-down map could
   enable the player to click on any room on the map and any item within a
   room. This syntax would look like:
-
+  %
   \begin{eqnarray*}
     room   &::=& \syn{courtyard} \mid \syn{library} \mid \syn{quarters}
               \mid \syn{lab}\\
@@ -242,7 +242,7 @@
     entity &::=& room \mid item\\
     intent &::=& \syn{click}\param{entity}
   \end{eqnarray*}
-
+  %
   Note that this syntax, compared to that for WASD+, describes a larger set
   of possible utterances, even though it has the exact same set of
   permitted game behaviors (a player may only move into adjacent rooms and
@@ -264,11 +264,11 @@
   typed strings and syntactically-well-formed commands, we can define the
   abstract syntax as follows (where $direction$ and $item$ are assumed to
   be defined as they were in the previous examples):
-
+%
   \begin{eqnarray*}
     intent &::=& \cmove\param{direction} \mid \ctake\param{item}
   \end{eqnarray*}
-
+%
   Assuming the player ``knows the language,'' i.e. knows that $\cmove$
   and $\ctake$ are valid commands, and in fact the {\em only} valid
   commands, and assuming that she knows how to map the visual affordances
@@ -308,7 +308,7 @@
   relevant to any particular game, and since we are aiming to provide a
   correspondence between specific games and languages, we opt for the
   latter:
-
+  %
   \begin{eqnarray*}
     intent &::=& \syn{select}\param{choice}\\
     choice &::=& \syn{take\_flask\_from\_lab}\\
@@ -319,7 +319,7 @@
            &\mid& \syn{go\_north\_from\_library} \\
            &\mid& \hdots
   \end{eqnarray*}
-
+  %
   Some hypertext authors put a lot of effort into scaffolding the
   choice-based experience with a richer language, e.g. by repeating the
   same set of commands across different pages that behave in consistent
@@ -357,18 +357,18 @@
   
 
 
-  \section{Mechanics as operational semantics}
+  \section{Game mechanics as \\ operational semantics}
   \label{sec:opsem}
 
-  (XXX move this before or after opsem part?)
-  \subsection{Game environment as external runtime}
+%  (XXX move this before or after opsem part?)
+%  \subsection{Game environment as external runtime}
 
-  To characterize mechanics, we will also need an account of expressions
-  permissible in the game's language (e.g. display a room, make a sound,
-  make an object disappear, etc. --- things more commonly accounted for in
-  formal game description languages). 
+%  To characterize mechanics, we will also need an account of expressions
+%  permissible in the game's language (e.g. display a room, make a sound,
+%  make an object disappear, etc. --- things more commonly accounted for in
+%  formal game description languages). 
 
-  (XXX more; transition?)
+%  (XXX more; transition?)
 %   We will also need to characterize ``hidden'' state of the game...
 %   predicate syntax... locations of things, adjacency graph to describe the
 %   world map
@@ -378,7 +378,7 @@
 
   \input{sec-opsem}
 
-  \section{Contextual interfaces as type systems}
+  \section{Contextual interfaces as \\ type systems}
   \label{sec:typesys}
 
   Decisions about interface syntax can, to some extent, limit or expand the
@@ -415,7 +415,7 @@
   context, such as the location of the player and the adjacency mapping
   between rooms in the world. An example of a typing rule we might include
   to codify the ``only present things are takeable'' rule would be:
-
+  % No whitespace here
   \[
     \infer
     { 
@@ -427,13 +427,13 @@
       \Gamma \vdash \syn{at}(O, R)
     }
   \]
-
+  %
   We then need to define a relation between concrete game states $G$ and
   abstract conditions on those states, $\Gamma$. We might write this
   relation $G\ :\ \Gamma$.
   After such rules are codified, we can refine the ``game completeness''
   conjecture to handle only those utterances that are well-typed:
-
+  %
   \[
   \begin{array}{cc}
   \forall G_1, \mathit{intent}.
@@ -448,9 +448,42 @@
     {G_2}{\mathit{resp}}
   \end{array}
   \]
+  %
+  This is nearly what we want to know about our game mechanics.
+  %  
+  However, we want to apply this reasoning iteratively as the game progresses, so that we
+  reason next about the player intention that leads from game state~$G_2$
+  to another possibly different game state~$G_3$.
   
+  For this reasoning to work, we generally need to update the original context~$\Gamma$,
+  possibly extending it with additional assumptions, and creating~$\Gamma'$.  We write $\Gamma \subseteq \Gamma'$ to mean that $\Gamma'$ extends $\Gamma$ in a well-defined way (often by just having \emph{more} assumptions):
+  %
+  \[
+  \begin{array}{lll}
+  \forall G_1, \mathit{intent}.
+  & (G_1\ :\ \Gamma)
+    \land
+    (\Gamma \vdash intent\ \syn{ok})
+\\[2mm]
+\Longrightarrow
+ \exists \Gamma', G_2, \mathit{resp}.
+  &
+  \big( \GameStep
+    {G_1}{\mathit{intent}}
+    {G_2}{\mathit{resp}}
+  \big)
+\\
+&
+\wedge 
+  (G_2  :\ \Gamma') 
+\wedge 
+  (\Gamma \subseteq \Gamma') 
+\\
+  & 
+  \end{array}
+  \]
 
-  \section{Play traces as straight-line programs}
+  \section{Play traces as \\ straight-line programs}
   \label{sec:traces}
 
   
@@ -470,7 +503,7 @@
     commands in the language, then $c_1;c_2$ is also an command.
     The operational semantics of such an command involves the
     composition of transformations on states $\sigma$:
-
+    %
     \[
       \infer{
         \left< \sigma; (c_1;c_2)\right> \longrightarrow
@@ -484,7 +517,7 @@
           \sigma_2
       }
     \]
-
+    %
     However, interactive software makes this account more complicated by
     introducing the program response as a component. Instead of issuing
     arbitrary commands in sequence, the player may wait for a response or

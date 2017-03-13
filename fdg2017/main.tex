@@ -144,16 +144,19 @@ it relates to language, interface, and cognition.}
 Since the constraints on what
 language they may use are wholly determined by a piece of software (the
 game interface), we argue that these languages more in common with a {\em
-programming language} (PL) (broadly defined as a formal language whose meaning
-is fully grounded in a computational system) than a natural language. 
+programming language}\footnote{We define PL broadly as a formal language whose meaning
+is fully grounded in a computational system.} (PL) than a natural language. 
 Accordingly, each game in some sense {\em defines its own programming
 language}. In a slogan, we could term this project {\em games as
 programming languages}.
+%
+Specifically, we propose \emph{player intent languages} as a
+PL-inspired framework for designing player-game interfaces.
 
 % What is to be gained by this analogy?
 
 This analogy opens up a whole field of methodology to try applying to
-games.  The programming languages (PL) community has a long and deep
+games.  The PL research community has a long and deep
 history of assigning mathematically formal semantics to languages and
 analyzing those semantics. As games researchers become more interested in
 the emergent consequences of the systems they assemble, the tools of PL
@@ -207,33 +210,97 @@ system must listen and respond to, we enable the player to {\em co-create}
 with the system, potentially developing deeper systems understanding
 and emotional investment.
 
-In the remainder of the paper, we concretize the analogy by introducing the
-components of a theoretical account of a programming language (syntax, type
-system, and operational semantics) and its analog in a game. We walk
-through an example to illustrate how to think about a game in terms of its
-language-like affordances, and we demonstrate the payoff of this line of
-thought by extending the metaphor to account for {\em player skills} as
-``programs,'' effectively representing mental models for how to accomplish
-some task in terms of the game's linguistic constructs.
+In this paper, we propose \emph{player intent languages}, a
+programming languages-based approach to designing player-game
+interfaces as formal objects.
+%
+In the remainder of the paper, we tour this approach through concrete
+examples.
+%
+Specifically, we consider a simple game design space and make points
+in this space precise by introducing the components of a programming
+olanguage:
+%
+abstract syntax (Section~\ref{sec:syntax}),
+%
+type system~(Section~\ref{sec:typsys}), 
+%
+and operational semantics~(Section~\ref{sec:opsem}).
+%
+For component, we give a corresponding concept in the game world.
+%
+By grounding these game concepts in analogous programming language
+concepts, we gain powerful PL reasoning tools and design methodologies
+to benefit the game design process.
+
+We demonstrate the payoff of this line of thought by extending the
+metaphor to account for \emph{play traces} as \emph{straight-line
+  programs} (Section~\ref{sec:traces}), and {\em player skills} as
+\emph{general programs} (e.g., programs with parameters, branching and
+looping)~(Section~\ref{sec:skills}).
+%
+These structures give semantic logs and general strategies,
+respectively, for accomplishing a task in the game world.
+%
+The conceptual framework of player intention languages gives rise to
+further research directions, which we briefly outline and discus
+before concluding (Sections~\ref{sec:discussion} and \ref{sec:conclusion}).
+
+%% In the remainder of the paper, we concretize the analogy by introducing the
+%% components of a theoretical account of a programming language (syntax, type
+%% system, and operational semantics) and its analog in a game. We walk
+%% through an example to illustrate how to think about a game in terms of its
+%% language-like affordances, and we demonstrate the payoff of this line of
+%% thought by extending the metaphor to account for {\em player skills} as
+%% ``programs,'' effectively representing mental models for how to accomplish
+%% some task in terms of the game's linguistic constructs.
 
 \section{Related Work}
 
 \input{related}
 
-\section{A Framework}
+%\section{A Framework}
+\section{A Framework for \\ Player Intent Languages}
 
 \input{framework}
   
 % \section{Example}
 % \input{example}
 
-\section{Player skills as programs}
+\section{Player skills as \\ general programs}
 \label{sec:skills}
 \input{skills}
 
 
-\section{Conclusion}
+\section{Discussion}
+\label{sec:discussion}
 \input{discussion}
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+We propose \emph{player intent languages}, a systematic framework for
+applying programming language design principles to the design of
+player-game interfaces.
+%
+We define this framework through simple examples of syntax (aka player
+intents), type systems (aka contextual interfaces) and operational
+semantics (aka game mechanics).
+%
+We show how applying this framework to a player-game interface
+naturally gives rise to formal notions of play traces (as
+straight-line programs) and player skills (as general programs with
+branching and recursion).
+%
+By defining a player intent language, game design concepts become
+formal objects of study, allowing existing PL methodology to inform and
+guide the design process.
+
+%
+%We discuss broader implications and directions for future work, based
+%on this conceptual framework.
+%
+%(XXX say something more specific in last sentence)
   
 % \section{Conclusion}
 % 

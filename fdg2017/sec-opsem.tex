@@ -126,9 +126,43 @@ Indeed, this is precisely the reasoning required to show that an
 implementation of the game is \emph{complete} (i.e., there exists no
 state and input that will lead the game into an undefined situation).
 
+Reasoning about this completeness involves reasoning about when each
+rule is applicable.  
+%
+For instance, the rule for a successful player intent of~\textsf{take}
+requires two premises:
+$G_1 \vdash \textrm{player near}~\textsf{flask}$
+and
+$\textsf{playerTake}(G_1,\textsf{flask}) \equiv G_2$.
+%
+The first is a \emph{logical judgment} about the game world involving
+the proposition~$\textrm{player near}~\textsf{flask}$, which may or
+may not be true, but which is computable.
+%
+The second is a \emph{semantic function} that transforms a game state
+into one where the player takes a given object; in general, this
+function may be undefined, e.g., if the arguments do not meet the
+functions \emph{pre-conditions}.
+%
+For instance, a precondition of the
+function~$\textsf{playerTake}(-,-)$ may be that the object is not
+already in the possession of the player.
+%
+In this case, to show that the game mechanics do not ``get stuck'', we
+must show that~$\textrm{player near}~\textsf{flask}$ implies that the
+player does not already posses the flask.
+%
+(Otherwise, we should add another rule to handle the case that the
+player intends to take the flask but already possess it).
+%
 
-XXX 
-Transition
+The design process of programming language semantics often consists of
+trying to write examples and prove theorems, and revising the language
+definition to account for what one learns during this design process.
+%
+In the next section, we refine intents and semantics further by
+introducing the notion of a \emph{context}.
+
 
 \OmitThis{
 \section{Precise player-game dynamics via operational semantics}
