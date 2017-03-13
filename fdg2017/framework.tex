@@ -458,16 +458,17 @@
   For this reasoning to work, we generally need to update the original context~$\Gamma$,
   possibly changing its assumptions, and creating~$\Gamma'$.  We write $\Gamma \subseteq \Gamma'$ to mean that $\Gamma'$ \emph{succeeds} $\Gamma$ in a well-defined way. 
   %
-  We now want to show that, given a game state~$G_1$ and player intention~\ensuremath{\mathit{intent}} that agree about the context of assumptions~$\Gamma$, there exists a successor context~$\Gamma'$ that agrees with the new game state~$G_2$:
+  Given that state~$G_1$ and~\ensuremath{\mathit{intent}} agree about the context of assumptions~$\Gamma$, we wish to show that there exists a successor context~$\Gamma'$ that agrees with the new game state~$G_2$:
   %
   \[
   \begin{array}{lll}
+&
   \forall G_1, \mathit{intent}.
   & (G_1\ :\ \Gamma)
     \land
     (\Gamma \vdash intent\ \syn{ok})
-\\[2mm]
-\Longrightarrow
+\\
+\Longrightarrow &
  \exists \Gamma', G_2, \mathit{resp}.
   &
   \big( \GameStep
@@ -475,15 +476,16 @@
     {G_2}{\mathit{resp}}
   \big)
 \\
-&
+&&
 \wedge 
   (G_2  :\ \Gamma') 
 \wedge 
   (\Gamma \subseteq \Gamma') 
-\\
-  & 
   \end{array}
   \]
+  %
+  This statement closely matches the usual statement of
+  \emph{progress} for programming languages with sound type systems.
 
   \section{Play traces as \\ straight-line programs}
   \label{sec:traces}
