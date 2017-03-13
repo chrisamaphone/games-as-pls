@@ -68,7 +68,7 @@ For instance, here are two example rules:
 \infer{
   \GameStep{G_1}{\ctake}{G_2}{\textsf{success}}
 }{ 
-  G_1 \vdash \textrm{player near}~\textsf{flask}
+  G_1 \vdash \textsf{playerNear}~\textsf{flask}
   \quad
   \quad
   \textsf{playerTake}(G_1,\textsf{flask}) \equiv G_2
@@ -78,7 +78,7 @@ For instance, here are two example rules:
 \infer{
   \GameStep{G}{\ctake}{G}{\textsf{failure}}
 }{
-  G \vdash \textsf{not}\big( \textrm{player near}~\textsf{flask} \big)
+  G \vdash \textsf{not}\big( \textsf{playerNear}~\textsf{flask} \big)
 }
 \]
 The first rule formalizes the case shown in the RHS of
@@ -131,12 +131,12 @@ rule is applicable.
 %
 For instance, the rule for a successful player intent of~\textsf{take}
 requires two premises:
-$G_1 \vdash \textrm{player near}~\textsf{flask}$
+$G_1 \vdash \textsf{playerNear}~\textsf{flask}$
 and
 $\textsf{playerTake}(G_1,\textsf{flask}) \equiv G_2$.
 %
 The first is a \emph{logical judgment} about the game world involving
-the proposition~$\textrm{player near}~\textsf{flask}$, which may or
+the proposition~$\textsf{playerNear}~\textsf{flask}$, which may or
 may not be true, but which is computable.
 %
 The second is a \emph{semantic function} that transforms a game state
@@ -149,7 +149,7 @@ function~$\textsf{playerTake}(-,-)$ may be that the object is not
 already in the possession of the player.
 %
 In this case, to show that the game mechanics do not ``get stuck'', we
-must show that~$\textrm{player near}~\textsf{flask}$ implies that the
+must show that~$\textsf{playerNear}~\textsf{flask}$ implies that the
 player does not already posses the flask.
 %
 (Otherwise, we should add another rule to handle the case that the
