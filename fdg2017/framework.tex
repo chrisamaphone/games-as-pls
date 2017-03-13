@@ -453,10 +453,12 @@
   %  
   However, we want to apply this reasoning iteratively as the game progresses, so that we
   reason next about the player intention that leads from game state~$G_2$
-  to another possibly different game state~$G_3$.
+  to another possibly different game state~$G_3$; but what context for player intent describes state~$G_2$?
   
   For this reasoning to work, we generally need to update the original context~$\Gamma$,
-  possibly extending it with additional assumptions, and creating~$\Gamma'$.  We write $\Gamma \subseteq \Gamma'$ to mean that $\Gamma'$ extends $\Gamma$ in a well-defined way (often by just having \emph{more} assumptions):
+  possibly changing its assumptions, and creating~$\Gamma'$.  We write $\Gamma \subseteq \Gamma'$ to mean that $\Gamma'$ \emph{succeeds} $\Gamma$ in a well-defined way. 
+  %
+  We now want to show that, given a game state~$G_1$ and player intention~\ensuremath{\mathit{intent}} that agree about the context of assumptions~$\Gamma$, there exists a successor context~$\Gamma'$ that agrees with the new game state~$G_2$:
   %
   \[
   \begin{array}{lll}
