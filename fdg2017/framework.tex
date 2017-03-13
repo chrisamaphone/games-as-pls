@@ -53,16 +53,22 @@
   function.
 
   \begin{table}
-  \begin{tabular}{ll}
+  \begin{tabular}{l|ll}
     PL concept & Game concept\\
     \hline
-    Syntax & Recognized player actions \\
-    Operational semantics & Game mechanics \\
-    Type system & Contextual interface \\
-    Straight-line programs & Play traces\\ 
-    General programs & Player skills
+    Syntax & Recognized player actions & (Section \ref{sec:syntax})\\
+    Operational semantics & Game mechanics & (Section \ref{sec:opsem})\\
+    Type system & Contextual interface & (Section \ref{sec:typesys})\\
+    Straight-line programs & Play traces & (Section \ref{sec:traces})\\ 
+    General programs & Player skills & (Section \ref{sec:skills})
+    \\
+    \hline
   \end{tabular}
-  \caption{The proposed analogy between PL and game concepts.}
+%  \caption{Languages for player-game interfaces: Formal decomposition
+ %   (left) and informal correspondances (right).}
+  \caption{Player intent languages: 
+    \\
+    Formal decomposition (left) and correspondances (right).}
   \label{tab:correspondence}
   \end{table}
 
@@ -122,6 +128,8 @@
   of design choices relevant to the specified aspect of PL design.
 
   \section{Player actions as syntax}
+  \label{sec:syntax}
+
 
 %   \begin{figure*}
 %     \begin{tabular}{|l|c|}
@@ -350,6 +358,7 @@
 
 
   \section{Mechanics as operational semantics}
+  \label{sec:opsem}
 
   (XXX move this before or after opsem part?)
   \subsection{Game environment as external runtime}
@@ -370,6 +379,7 @@
   \input{sec-opsem}
 
   \section{Contextual interfaces as type systems}
+  \label{sec:typesys}
 
   Decisions about interface syntax can, to some extent, limit or expand the
   player's ability to form intents that will be met with failure, such as
@@ -441,6 +451,8 @@
   
 
   \section{Play traces as straight-line programs}
+  \label{sec:traces}
+
   
 %  Argument for having a syntactically-well-founded structured term for a
 %  play trace (XXX)
