@@ -49,7 +49,7 @@
   without knowing the internals of a language implementation.  It is a
   necessary component of reproducibility of research, and it allows
   researchers to build on each other's work. We believe that an embrace of
-  the formal specification in games research can play a similarly important
+  formal specification in games research can play a similarly important
   function.
 
   \begin{table}
@@ -239,7 +239,7 @@
     room   &::=& \syn{courtyard} \mid \syn{library} \mid \syn{quarters}
               \mid \syn{lab}\\
     item   &::=& \syn{flask} \mid \syn{book}\\
-    entity &::=& room \mid item\\
+    entity &::=& \syn{room} \mid \syn{item}\\
     intent &::=& \syn{click}\param{entity}
   \end{eqnarray*}
   %
@@ -322,10 +322,10 @@
   %
   Some hypertext authors put a lot of effort into scaffolding the
   choice-based experience with a richer language, e.g. by repeating the
-  same set of commands across different pages that behave in consistent
-  ways, or by creating menu-like interfaces where text cycles between
+  same set of commands that behave in consistent ways across different
+  pages, or by creating menu-like interfaces where text cycles between
   options on an otherwise static page. In this way, hypertext as a medium
-  might be said as providing a playform for designers to create their own
+  might be said as providing a platform for designers to create their own
   interface conventions, rather than relying on a set of pre-established
   ones; by the same token, hypertext games created by inexperienced
   interface (or language) designers may feel to players like being asked to
@@ -504,8 +504,8 @@
 
     In a typical account of an imperative programming language, we
     introduce a sequencing operator $;$ where, if $c_1$ and $c_2$ are
-    commands in the language, then $c_1;c_2$ is also an command.
-    The operational semantics of such an command involves the
+    commands in the language, then $c_1;c_2$ is also a command.
+    The operational semantics of such a command involves the
     composition of transformations on states $\sigma$:
     %
     \[
@@ -552,17 +552,17 @@
     any program. And this syntax is at a high level of game-relevant
     interactions, not at the level of hardware inputs and engine code.
 
-    Researchers in academia and the games industry alike have in recent
-    years been increasingly interested in play trace data for the sake of
+    Researchers in academia and the games industry alike have recently
+    been increasingly interested in play trace data for the sake of
     analytics, such as understanding how their players are interacting with
-    different components of the game and responding to this game with
+    different components of the game and responding to this information with
     updates that support player interest~\cite{el2013game}. 
     For the most part, this trace data is collected through telemetry or
     other indirect means, like game variable monitoring, after which it
-    must be analyzed for meaning.~\cite{Canossa2013} More recently,
+    must be analyzed for meaning~\cite{Canossa2013}. More recently,
     systems of structured trace terms that may be
     analyzed with logical queries have been
-    proposed,~\cite{osborn2015playspecs} identifying as a benefit an
+    proposed~\cite{osborn2015playspecs}, identifying as a benefit an
     ability to support automated testing at the level of design intents.
     Our PL analogy supports this line of inquiry and warrants
     further comparison and collaboration.

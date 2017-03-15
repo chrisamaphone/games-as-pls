@@ -58,7 +58,7 @@ of Figure~\ref{fig:gameloop}.  It consists of four parts: An initial
 game state~$G_1$, a player intent~$\mathit{intent}$, a resulting game
 state~$G_2$ and a game response~$\mathit{resp}$.
 
-As as standard in PL formalisms, we give the rules that define this
+As is standard in PL formalisms, we give the rules that define this
 relation as inductive \emph{inference rules}, which can each be read
 as a logical inference.  That is, given evidence for the premises on
 the top of the rule, we may conclude the bottom of the rule.
@@ -142,7 +142,7 @@ may not be true, but which is computable.
 The second is a \emph{semantic function} that transforms a game state
 into one where the player takes a given object; in general, this
 function may be undefined, e.g., if the arguments do not meet the
-functions \emph{pre-conditions}.
+function's \emph{pre-conditions}.
 %
 For instance, a precondition of the
 function~$\textsf{playerTake}(-,-)$ may be that the object is not
@@ -153,7 +153,7 @@ must show that~$\textsf{playerNear}~\textsf{flask}$ implies that the
 player does not already posses the flask.
 %
 (Otherwise, we should add another rule to handle the case that the
-player intends to take the flask but already possess it).
+player intends to take the flask but already possesses it).
 %
 The design process for programming language semantics often consists
 of trying to write examples and prove theorems, and failing; these
