@@ -55,7 +55,7 @@ Our initial $\{\cmove, \ctake\}$ example is too simple to craft really
 compelling examples of complex programs, so here we examine
 Stardew Valley and its game language for the sake of considering player
 skills. In Stardew Valley, the player has an inventory that permits varied
-interactions with the world, beginning a number of tools for farming (axe,
+interactions with the world, beginning with a number of tools for farming (axe,
 hoe, scythe, pickaxe) which do different things in contact with the
 resources in the surrounding environment; most include extracting some
 resource (wood, stone, fiber, and so on), which themselves enter the
@@ -163,7 +163,7 @@ approach is to explicitly indicate as parameters the world resources that
 each action needs in order to complete successfully.
 The overall action definition for mining, or example, would
 require as a precondition to the action that a pickaxe is
-available in the player inventory and a rock is in the ssme room. The
+available in the player inventory and a rock is in the same room. The
 actions for selecting the pickaxe and moving near the rock would depend on
 these resources, and the game response language could include the resources
 it guarantees as outputs. Then we can write the program using simpler
@@ -215,7 +215,7 @@ action water_until_harvestable[t](p: planted(t))
       case result of
         c:crop(t) => c
       | g:growing(t) => 
-          water(g, w); 
+          water(g); 
           wait(day); 
           try_harvest(g)
 \end{verbatim}
